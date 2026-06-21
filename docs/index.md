@@ -9,4 +9,4 @@ title: Hands-on Modern RL
 
 This site is published in English by default.
 
-[Get Started](/preface/intro)
+[Get Started](/en/preface/intro)
