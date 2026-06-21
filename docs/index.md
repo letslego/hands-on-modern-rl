@@ -1,11 +1,12 @@
-<script setup>
-import { useRouter } from 'vitepress'
-import { onMounted } from 'vue'
+---
+layout: home
+title: Hands-on Modern RL
+---
 
-const router = useRouter()
+# Hands-on Modern RL
 
-onMounted(() => {
-  // VitePress base needs to be considered
-  router.go('/hands-on-modern-rl/preface/intro')
-})
-</script>
+> Modern Reinforcement Learning in Practice — From Code to Theory
+
+This site is published in English by default.
+
+[Get Started](/preface/intro)

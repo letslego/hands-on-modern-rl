@@ -491,9 +491,7 @@ function footnoteTitlePlugin(md) {
     const hasManualTitle = /^(参考文献|References)[:：]?$/.test(
       previousContent
     )
-    const title = env.relativePath?.startsWith('en/')
-      ? 'References'
-      : '参考文献'
+    const title = 'References'
     const heading = hasManualTitle
       ? ''
       : `<div class="footnotes-title">${title}</div>\n`
@@ -1862,10 +1860,10 @@ logger.warn = (msg, options) => {
 }
 
 export default defineConfig({
-  lang: 'zh-CN',
+  lang: 'en-US',
   title: 'Hands-on Modern RL',
   description:
-    '现代强化学习实战指南：涵盖经典控制、LLM 后训练、RLVR 与多模态智能体',
+    'Modern Reinforcement Learning in Practice — From Code to Theory',
   base,
   cleanUrls: true,
   lastUpdated: true,
@@ -1946,46 +1944,46 @@ export default defineConfig({
   ],
   locales: {
     root: {
-      label: '简体中文',
-      lang: 'zh-CN',
+      label: 'English',
+      lang: 'en-US',
       link: '/',
       title: 'Hands-on Modern RL',
-      description: '现代强化学习实战——从代码到原理',
+      description: 'Modern Reinforcement Learning in Practice — From Code to Theory',
       themeConfig: {
-        nav: zhNav,
-        sidebar: zhSidebar,
+        nav: enNav,
+        sidebar: enSidebar,
         editLink: {
           pattern: editLinkPattern,
-          text: '在 GitHub 上编辑此页'
+          text: 'Edit this page on GitHub'
         },
         footer: {
-          message: '现代强化学习实战课程',
+          message: 'Hands-on Modern RL course',
           copyright: 'Copyright © WalkingLabs'
         },
         outline: {
           level: [2, 3],
-          label: '大纲'
+          label: 'Outline'
         },
         lastUpdated: {
-          text: '最后更新'
+          text: 'Last updated'
         },
         docFooter: {
-          prev: '上一页',
-          next: '下一页'
+          prev: 'Previous page',
+          next: 'Next page'
         },
-        darkModeSwitchLabel: '外观',
-        lightModeSwitchTitle: '切换到浅色模式',
-        darkModeSwitchTitle: '切换到深色模式',
-        sidebarMenuLabel: '菜单',
-        returnToTopLabel: '返回顶部',
-        langMenuLabel: '切换语言',
-        skipToContentLabel: '跳转到正文',
+        darkModeSwitchLabel: 'Appearance',
+        lightModeSwitchTitle: 'Switch to light theme',
+        darkModeSwitchTitle: 'Switch to dark theme',
+        sidebarMenuLabel: 'Menu',
+        returnToTopLabel: 'Return to top',
+        langMenuLabel: 'Change language',
+        skipToContentLabel: 'Skip to content',
         notFound: {
-          title: '页面未找到',
-          quote: '这个地址不存在，试试从中文首页重新进入。',
+          title: 'Page not found',
+          quote: 'This page is missing. Try going back to the home page.',
           link: '/',
-          linkText: '返回中文首页',
-          linkLabel: '返回中文首页'
+          linkText: 'Take me home',
+          linkLabel: 'Go to home page'
         }
       }
     },
@@ -2004,12 +2002,12 @@ export default defineConfig({
           text: 'Edit this page on GitHub'
         },
         footer: {
-          message: '现代强化学习实战课程',
+          message: 'Hands-on Modern RL course',
           copyright: 'Copyright © WalkingLabs'
         },
         outline: {
           level: [2, 3],
-          label: '大纲'
+          label: 'Outline'
         },
         lastUpdated: {
           text: 'Last updated'
@@ -2039,8 +2037,8 @@ export default defineConfig({
   themeConfig: {
     logo: '/readme/logo-symbol.svg',
     siteTitle: 'Hands on Modern RL',
-    nav: zhNav,
-    sidebar: zhSidebar,
+    nav: enNav,
+    sidebar: enSidebar,
     socialLinks: [
       { icon: 'github', link: `https://github.com/${owner}/${repo}` }
     ],
@@ -2062,7 +2060,7 @@ export default defineConfig({
     },
     outline: {
       level: [2, 3],
-      label: '大纲'
+      label: 'Outline'
     }
   }
 })
