@@ -25,7 +25,7 @@ export const bookAuthor =
   process.env.PDF_AUTHORS ||
   process.env.PDF_AUTHOR ||
   packageJson.author ||
-  `WalkingLabs; 散步 (${sanbuGithubUrl})`
+  `letslego; 散步 (${sanbuGithubUrl})`
 
 export const bookTitle = '现代强化学习实战——从代码到原理'
 
@@ -156,7 +156,7 @@ export const frontMatter = {
     titleEn: 'Hands-on Modern RL',
     titleZh: bookTitle,
     description: `${bookTagline}。本书从可运行代码、训练曲线和失败案例出发，逐步进入 MDP、策略梯度、PPO、DPO、GRPO、RLVR、Agentic RL 与多模态强化学习。`,
-    publisher: 'WalkingLabs Open Course Series'
+    publisher: 'letslego Open Course Series'
   },
   intro: {
     title: '本书简介',

@@ -7,7 +7,7 @@
 :::
 
 ::: tip 寻求帮助
-由于资源稀缺问题，我们正在寻求显卡支持，如果您有显卡使用方式愿意支持非常欢迎联系 [physicoada@gmail.com](mailto:physicoada@gmail.com)。
+由于资源稀缺问题，我们正在寻求显卡支持，如果您有显卡使用方式愿意支持非常欢迎联系 [amitabha.karmakar@gmail.com](mailto:amitabha.karmakar@gmail.com)。
 :::
 
 ## 为什么需要强化学习？

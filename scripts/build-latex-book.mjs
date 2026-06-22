@@ -32,14 +32,14 @@ const pdfOutputPath = path.join(
   distDir,
   process.env.LATEX_BOOK_FILE_NAME || defaultPdfFileName
 )
-const walkingLabsGithubUrl =
-  process.env.PDF_WALKINGLABS_GITHUB_URL || 'https://github.com/walkinglabs'
+const primaryGithubUrl =
+  process.env.PDF_PRIMARY_GITHUB_URL || 'https://github.com/letslego'
 const sanbuGithubUrl =
   process.env.PDF_SANBU_GITHUB_URL || 'https://github.com/sanbuphy'
 const pdfAuthors =
   process.env.PDF_AUTHORS ||
   process.env.PDF_AUTHOR ||
-  `WalkingLabs; 散步 (${sanbuGithubUrl})`
+  `letslego; 散步 (${sanbuGithubUrl})`
 const pdfTitleLogoWidth = process.env.PDF_LOGO_WIDTH || '118mm'
 const pdfPaperWidth = process.env.PDF_PAPER_WIDTH || '210mm'
 const pdfPaperHeight = process.env.PDF_PAPER_HEIGHT || '297mm'
@@ -365,8 +365,8 @@ function renderAuthors() {
   }
 
   return `\\href{${escapeLatexUrl(
-    walkingLabsGithubUrl
-  )}}{WalkingLabs}; \\href{${escapeLatexUrl(sanbuGithubUrl)}}{散步}`
+    primaryGithubUrl
+  )}}{letslego}; \\href{${escapeLatexUrl(sanbuGithubUrl)}}{散步}`
 }
 
 function normalizeInlineHtml(value) {
@@ -1481,7 +1481,7 @@ function latexPreamble() {
   bookmarksopen=true,
   bookmarksnumbered=true,
   pdftitle={${escapeLatex(pdfBookTitle)}},
-  pdfauthor={WalkingLabs; sanbuphy}
+  pdfauthor={letslego; sanbuphy}
 }
 \definecolor{BookInk}{HTML}{222222}
 \definecolor{BookMuted}{HTML}{666A73}
@@ -1529,7 +1529,7 @@ function latexPreamble() {
 \pagestyle{fancy}
 \fancyhf{}
 \fancyhead[L]{\footnotesize \href{${escapeLatexUrl(pdfGithubUrl)}}{Hands-On Modern RL}}
-\fancyhead[R]{\footnotesize \href{https://github.com/walkinglabs}{作者：WalkingLabs}；\href{${escapeLatexUrl(sanbuGithubUrl)}}{散步}}
+\fancyhead[R]{\footnotesize \href{https://github.com/letslego}{作者：letslego}；\href{${escapeLatexUrl(sanbuGithubUrl)}}{散步}}
 \fancyfoot[L]{\scriptsize GitHub: \href{${escapeLatexUrl(pdfGithubUrl)}}{letslego/hands-on-modern-rl} · \href{${escapeLatexUrl(sanbuGithubUrl)}}{sanbuphy}}
 \fancyfoot[R]{\scriptsize\thepage}
 \renewcommand{\headrulewidth}{0.3pt}
@@ -1588,8 +1588,8 @@ function renderTitlePage(logoAsset) {
   const repoLabel = isEnglishPdf ? 'Repository' : '仓库'
   const versionLabelText = isEnglishPdf ? 'Version' : '版本'
   const coverNote = isEnglishPdf
-    ? 'This book is compiled by WalkingLabs Open Course Series as a versioned, citable PDF for offline reading and classroom use.'
-    : '本书由 WalkingLabs 开放课程整理为可离线阅读、可引用、可持续修订的书籍版 PDF。'
+    ? 'This book is compiled by letslego Open Course Series as a versioned, citable PDF for offline reading and classroom use.'
+    : '本书由 letslego 开放课程整理为可离线阅读、可引用、可持续修订的书籍版 PDF。'
 
   return [
     '\\begin{titlepage}',
@@ -1599,7 +1599,7 @@ function renderTitlePage(logoAsset) {
     logoAsset
       ? `\\includegraphics[width=${pdfTitleLogoWidth}]{${logoAsset}}\\\\[13mm]`
       : '',
-    '{\\large WalkingLabs Open Course Series}\\\\[5mm]',
+    '{\\large letslego Open Course Series}\\\\[5mm]',
     '\\rule{0.54\\textwidth}{0.4pt}\\\\[8mm]',
     `{\\Huge\\bfseries ${renderInline(pdfEnglishTitle)}}\\\\[5mm]`,
     `{\\LARGE ${renderInline(pdfChineseTitle)}}\\\\[3mm]`,
@@ -1649,7 +1649,7 @@ function renderFrontMatter(pageCount) {
     )}}{${renderInline(pdfOnlineUrl)}}`,
     '',
     '\\section*{版权与许可}',
-    'Copyright \\copyright{} 2026 WalkingLabs and contributors.',
+    'Copyright \\copyright{} 2026 letslego and contributors.',
     '',
     `除非页面、图片或代码片段另有说明，本书文字、课程说明与原创图文内容采用 \\href{${escapeLatexUrl(
       pdfLicenseUrl
@@ -1661,7 +1661,7 @@ function renderFrontMatter(pageCount) {
     '如果你在课程、学习笔记、研究讨论或衍生非商业教育材料中使用本书，建议引用本仓库，并保留版本号。推荐格式如下：',
     '',
     '\\noindent\\textbf{APA-style}',
-    `\\begin{quote}\\small WalkingLabs. (2026). \\emph{${renderInline(
+    `\\begin{quote}\\small letslego. (2026). \\emph{${renderInline(
       `${pdfBookTitle}: ${pdfSubtitle}`
     )}} (Version ${renderInline(
       pdfVersion
@@ -1673,7 +1673,7 @@ function renderFrontMatter(pageCount) {
     '\\begin{Verbatim}[fontsize=\\scriptsize,frame=single,framesep=1.2mm]',
     '@misc{hands_on_modern_rl,',
     `  title        = {${pdfBookTitle}: ${pdfSubtitle}},`,
-    '  author       = {WalkingLabs},',
+    '  author       = {letslego},',
     '  year         = {2026},',
     `  howpublished = {\\url{${escapeLatexUrl(pdfGithubUrl)}}},`,
     `  note         = {Open courseware repository, Version ${pdfVersion}},`,
@@ -1698,7 +1698,7 @@ function renderFrontMatter(pageCount) {
     '',
     '当前教程仍在快速迭代中。建议优先阅读已经相对稳定的章节；标注为施工或未完成状态的章节可能仍有错误，也欢迎读者通过 GitHub Issues 和 Pull Request 参与修正与完善。',
     '',
-    '由于资源稀缺问题，项目正在寻求显卡支持。如果你有可用于课程实验、训练复现或教学验证的显卡使用方式，并愿意支持本开源教程，欢迎联系 \\href{mailto:physicoada@gmail.com}{physicoada@gmail.com}。本书特别适合以下读者：',
+    '由于资源稀缺问题，项目正在寻求显卡支持。如果你有可用于课程实验、训练复现或教学验证的显卡使用方式，并愿意支持本开源教程，欢迎联系 \\href{mailto:amitabha.karmakar@gmail.com}{amitabha.karmakar@gmail.com}。本书特别适合以下读者：',
     '',
     '\\begin{itemize}',
     '\\item 从监督学习转向强化学习的机器学习工程师；',
@@ -1757,7 +1757,7 @@ function renderEnglishFrontMatter(pageCount) {
     )}}{${renderInline(pdfOnlineUrl)}}`,
     '',
     '\\section*{License}',
-    'Copyright \\copyright{} 2026 WalkingLabs and contributors.',
+    'Copyright \\copyright{} 2026 letslego and contributors.',
     '',
     `Unless otherwise noted on a page, image, or code snippet, the original course text and figures are released under \\href{${escapeLatexUrl(
       pdfLicenseUrl
@@ -1769,7 +1769,7 @@ function renderEnglishFrontMatter(pageCount) {
     'If you use this book in courses, notes, research discussions, or derivative non-commercial educational materials, please cite the repository and keep the version number.',
     '',
     '\\noindent\\textbf{APA-style}',
-    `\\begin{quote}\\small WalkingLabs. (2026). \\emph{${renderInline(
+    `\\begin{quote}\\small letslego. (2026). \\emph{${renderInline(
       `${pdfBookTitle}: ${pdfSubtitle}`
     )}} (Version ${renderInline(
       pdfVersion
@@ -1781,7 +1781,7 @@ function renderEnglishFrontMatter(pageCount) {
     '\\begin{Verbatim}[fontsize=\\scriptsize,frame=single,framesep=1.2mm]',
     '@misc{hands_on_modern_rl,',
     `  title        = {${pdfBookTitle}: ${pdfSubtitle}},`,
-    '  author       = {WalkingLabs},',
+    '  author       = {letslego},',
     '  year         = {2026},',
     `  howpublished = {\\url{${escapeLatexUrl(pdfGithubUrl)}}},`,
     `  note         = {Open courseware repository, Version ${pdfVersion}},`,

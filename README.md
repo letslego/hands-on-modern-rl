@@ -93,7 +93,7 @@
 
 > **Help Wanted**
 >
-> Because compute resources are limited, we are seeking GPU support. If you can help with GPU access, please contact physicoada@gmail.com.
+> Because compute resources are limited, we are seeking GPU support. If you can help with GPU access, please contact amitabha.karmakar@gmail.com.
 
 ## Contents
 
@@ -395,14 +395,14 @@ For repository-specific maintenance rules, see [`AGENTS.md`](AGENTS.md).
 
 Our team has also created other courses. Take a look:
 
-- [**Learn Harness Engineering**](https://github.com/walkinglabs/learn-harness-engineering) — A course on Harness Engineering for AI coding agents. Through 12 lectures and 6 projects, it teaches you to build instructions, state management, verification, and control mechanisms that make model output reliable.
-- [**Modern LLM Notebook**](https://github.com/walkinglabs/modern-llm-notebook) — Build modern LLMs from scratch through 23 runnable Jupyter Notebooks in PyTorch, covering Tokenizer, Transformer, training, inference, alignment, and frontier topics.
+- [**Learn Harness Engineering**](https://github.com/letslego/learn-harness-engineering) — A course on Harness Engineering for AI coding agents. Through 12 lectures and 6 projects, it teaches you to build instructions, state management, verification, and control mechanisms that make model output reliable.
+- [**Modern LLM Notebook**](https://github.com/letslego/modern-llm-notebook) — Build modern LLMs from scratch through 23 runnable Jupyter Notebooks in PyTorch, covering Tokenizer, Transformer, training, inference, alignment, and frontier topics.
 
 ## Discussion Group (WeChat)
 
 For suggestions or feedback, scan the QR code to join the discussion group (WeChat):
 
-<img src="https://github.com/walkinglabs/.github/raw/main/profile/wechat.png" alt="Discussion Group" width="300" />
+<img src="https://github.com/letslego/.github/raw/main/profile/wechat.png" alt="Discussion Group" width="300" />
 
 ## Citation
 
@@ -411,7 +411,7 @@ If you use this course in teaching materials, study notes, or derivative non-com
 ```bibtex
 @misc{hands_on_modern_rl,
   title        = {Hands-On Modern RL: Practice-first reinforcement learning from CartPole to LLM post-training and agentic systems},
-  author       = {WalkingLabs},
+  author       = {letslego},
   year         = {2026},
   howpublished = {\url{https://github.com/letslego/hands-on-modern-rl}},
   note         = {Open courseware repository}
@@ -437,5 +437,5 @@ You may share and adapt the material for non-commercial purposes, provided that 
 ---
 
 <div align="center">
-  <sub>Maintained by WalkingLabs and contributors.</sub>
+  <sub>Maintained by letslego and contributors.</sub>
 </div>

@@ -62,7 +62,7 @@ function parseRepository() {
     }
   }
 
-  return { owner: 'walkinglabs', repo: packageJson.name || 'course-template' }
+  return { owner: 'letslego', repo: packageJson.name || 'course-template' }
 }
 
 const { owner, repo } = parseRepository()
@@ -1924,7 +1924,7 @@ export default defineConfig({
       'meta',
       { name: 'viewport', content: 'width=device-width, initial-scale=1.0' }
     ],
-    ['meta', { name: 'author', content: 'WalkingLabs' }],
+    ['meta', { name: 'author', content: 'letslego' }],
     ['meta', { name: 'robots', content: 'index,follow' }],
     ['meta', { property: 'og:title', content: 'Hands-on Modern RL' }],
     [
@@ -1958,7 +1958,7 @@ export default defineConfig({
         },
         footer: {
           message: 'Hands-on Modern RL course',
-          copyright: 'Copyright © WalkingLabs'
+          copyright: 'Copyright © letslego'
         },
         outline: {
           level: [2, 3],
@@ -2003,7 +2003,7 @@ export default defineConfig({
         },
         footer: {
           message: 'Hands-on Modern RL course',
-          copyright: 'Copyright © WalkingLabs'
+          copyright: 'Copyright © letslego'
         },
         outline: {
           level: [2, 3],
@@ -2056,7 +2056,7 @@ export default defineConfig({
     },
     footer: {
       message: 'Built for reusable bilingual course delivery',
-      copyright: 'Copyright © WalkingLabs'
+      copyright: 'Copyright © letslego'
     },
     outline: {
       level: [2, 3],

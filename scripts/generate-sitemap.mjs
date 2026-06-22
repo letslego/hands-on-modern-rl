@@ -38,7 +38,7 @@ function parseRepository() {
     }
   }
 
-  return { owner: 'walkinglabs', repo: packageJson.name || 'course-template' }
+  return { owner: 'letslego', repo: packageJson.name || 'course-template' }
 }
 
 function getSiteUrl() {

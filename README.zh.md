@@ -93,7 +93,7 @@
 
 > **寻求帮助**
 >
-> 由于资源稀缺问题，我们正在寻求显卡支持，如果您有显卡使用方式愿意支持非常欢迎联系 physicoada@gmail.com。
+> 由于资源稀缺问题，我们正在寻求显卡支持，如果您有显卡使用方式愿意支持非常欢迎联系 amitabha.karmakar@gmail.com。
 
 ## 目录
 
@@ -395,14 +395,14 @@ npm run verify        # 运行格式检查、Lint、构建和产物验证
 
 我们的团队还制作了其他课程！请查看：
 
-- [**Learn Harness Engineering**](https://github.com/walkinglabs/learn-harness-engineering) — 面向 AI 编程智能体的 Harness Engineering 课程。通过 12 节讲座和 6 个实战项目，教你构建指令、状态管理、验证与控制机制，让模型输出真正可靠。
-- [**Modern LLM Notebook**](https://github.com/walkinglabs/modern-llm-notebook) — 通过 23 个可运行的 Jupyter Notebook，从零用 PyTorch 实现现代 LLM 核心组件，涵盖 Tokenizer、Transformer、训练、推理、对齐与前沿主题。
+- [**Learn Harness Engineering**](https://github.com/letslego/learn-harness-engineering) — 面向 AI 编程智能体的 Harness Engineering 课程。通过 12 节讲座和 6 个实战项目，教你构建指令、状态管理、验证与控制机制，让模型输出真正可靠。
+- [**Modern LLM Notebook**](https://github.com/letslego/modern-llm-notebook) — 通过 23 个可运行的 Jupyter Notebook，从零用 PyTorch 实现现代 LLM 核心组件，涵盖 Tokenizer、Transformer、训练、推理、对齐与前沿主题。
 
 ## 读者交流群（微信）
 
 有任何建议 / 反馈，欢迎扫码加入读者交流群（微信）：
 
-<img src="https://github.com/walkinglabs/.github/raw/main/profile/wechat.png" alt="读者交流群" width="300" />
+<img src="https://github.com/letslego/.github/raw/main/profile/wechat.png" alt="读者交流群" width="300" />
 
 ## 引用
 
@@ -411,7 +411,7 @@ npm run verify        # 运行格式检查、Lint、构建和产物验证
 ```bibtex
 @misc{hands_on_modern_rl,
   title        = {Hands-On Modern RL: Practice-first reinforcement learning from CartPole to LLM post-training and agentic systems},
-  author       = {WalkingLabs},
+  author       = {letslego},
   year         = {2026},
   howpublished = {\url{https://github.com/letslego/hands-on-modern-rl}},
   note         = {Open courseware repository}
@@ -437,5 +437,5 @@ npm run verify        # 运行格式检查、Lint、构建和产物验证
 ---
 
 <div align="center">
-  <sub>由 WalkingLabs 及贡献者维护。</sub>
+  <sub>由 letslego 及贡献者维护。</sub>
 </div>

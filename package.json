@@ -21,7 +21,7 @@
     "fix:headings": "node scripts/fix-heading-numbers.mjs"
   },
   "keywords": [
-    "walkinglabs",
+    "letslego",
     "course-template",
     "vitepress",
     "documentation"

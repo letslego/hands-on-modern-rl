@@ -1144,11 +1144,11 @@ watch(
                 <div class="ct-popover-surface ct-support-panel">
                   <a
                     class="ct-support-link"
-                    href="https://github.com/walkinglabs"
+                    href="https://github.com/letslego"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <span>WalkingLab</span>
+                    <span>letslego</span>
                     <span>GitHub</span>
                   </a>
                   <a
@@ -1169,8 +1169,8 @@ watch(
                   </a>
                   <div class="ct-support-qr-card">
                     <img
-                      src="https://github.com/walkinglabs/.github/raw/main/profile/wechat.png"
-                      alt="WalkingLab 微信二维码"
+                      src="https://github.com/letslego/.github/raw/main/profile/wechat.png"
+                      alt="课程微信二维码"
                       loading="lazy"
                       decoding="async"
                     />

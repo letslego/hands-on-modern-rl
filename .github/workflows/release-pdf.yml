@@ -114,7 +114,7 @@ jobs:
           LATEX_BOOK_FILE_NAME: ${{ steps.release.outputs.en_asset_name }}
           PDF_OPTIMIZE: 1
           PDF_OPTIMIZE_PROFILE: default
-          PDF_AUTHORS: WalkingLabs; Sanbu
+          PDF_AUTHORS: letslego; Sanbu
           PUPPETEER_EXECUTABLE_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
 
       - name: Build English EPUB
@@ -209,7 +209,7 @@ jobs:
 
           \`\`\`text
           Hands-On Modern RL: Open Textbook, ${TAG_NAME}.
-          WalkingLabs; Sanbu.
+          letslego; Sanbu.
           https://github.com/${GITHUB_REPOSITORY}
           \`\`\`
 

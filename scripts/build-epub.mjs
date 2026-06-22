@@ -761,7 +761,7 @@ function generateContentOpf(chapters, imageMap, pageCount, hasCoverImage) {
     <meta property="dcterms:modified">${now}</meta>
     <dc:description>${escapeXml(bookTagline)}</dc:description>
     <dc:rights>${escapeXml(bookLicense)}</dc:rights>
-    <dc:publisher>WalkingLabs Open Course Series</dc:publisher>
+    <dc:publisher>letslego Open Course Series</dc:publisher>
     <meta name="version" content="${escapeXml(bookVersion)}"/>
     <meta name="build-date" content="${escapeXml(bookBuildDate)}"/>
     <meta name="page-count" content="${pageCount}"/>

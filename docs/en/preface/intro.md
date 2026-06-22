@@ -11,7 +11,7 @@ This course is under rapid iteration. We recommend starting with chapters not ma
 :::
 
 ::: tip Looking for Support
-Because compute resources are limited, we are looking for GPU sponsorship. If you can offer GPU access, please contact us at [physicoada@gmail.com](mailto:physicoada@gmail.com).
+Because compute resources are limited, we are looking for GPU sponsorship. If you can offer GPU access, please contact us at [amitabha.karmakar@gmail.com](mailto:amitabha.karmakar@gmail.com).
 :::
 
 ## Why Reinforcement Learning?
