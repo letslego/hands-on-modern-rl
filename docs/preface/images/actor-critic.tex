@@ -22,19 +22,19 @@
     lbl/.style={font=\small, align=center, text=black!70, fill=white, inner sep=2pt}
 ]
 
-\node[box] (actor) at (0, 2.4) {演员\\[-2pt]{\small (Actor)}\\[-2pt]{\footnotesize 决定动作 $a$}};
+\node[box] (actor) at (0, 2.4) {\\[-2pt]{\small (Actor)}\\[-2pt]{\footnotesize  $a$}};
 
-\node[box] (env) at (5.6, 0) {环境\\[-2pt]{\small (Environment)}};
+\node[box] (env) at (5.6, 0) {\\[-2pt]{\small (Environment)}};
 
-\node[box] (critic) at (0, -2.4) {评委\\[-2pt]{\small (Critic)}\\[-2pt]{\footnotesize 估计价值 $V(s)$}};
+\node[box] (critic) at (0, -2.4) {\\[-2pt]{\small (Critic)}\\[-2pt]{\footnotesize  $V(s)$}};
 
-\draw[arrow] (actor.east) -- node[above, lbl, pos=0.48] {动作 $a$} (env.north west);
+\draw[arrow] (actor.east) -- node[above, lbl, pos=0.48] { $a$} (env.north west);
 
-\draw[arrow] (env.west) -- node[above, lbl, pos=0.48] {状态 $s$} (actor.south east);
+\draw[arrow] (env.west) -- node[above, lbl, pos=0.48] { $s$} (actor.south east);
 
-\draw[arrow] (env.south west) -- node[below, lbl, pos=0.48] {奖励 $r$，下一状态 $s'$} (critic.east);
+\draw[arrow] (env.south west) -- node[below, lbl, pos=0.48] { $r$， $s'$} (critic.east);
 
-\draw[feedback] (critic.north) -- node[left, lbl, align=right] {TD 误差\\[-1pt]（打分）} (actor.south);
+\draw[feedback] (critic.north) -- node[left, lbl, align=right] {TD \\[-1pt]（）} (actor.south);
 
 \end{tikzpicture}
 \end{document}

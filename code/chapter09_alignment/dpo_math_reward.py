@@ -1,20 +1,20 @@
 """
-第7章：DPO 数学推理对齐 —— 用规则信号训练数学偏好
+7：DPO  —— 
 ==========================================================
 
-本脚本演示如何将 DPO 应用于数学推理领域：
-  1. 构造 GSM8K 风格的数学偏好数据（算术题）
-  2. 对每道题生成正确（chosen）和错误（rejected）的解题过程
-  3. 用 DPO 训练模型，使其更倾向于正确的推理路径
-  4. 在保留测试集上评估训练前后的准确率
-  5. 展示 DPO 如何从基于规则的偏好信号中学习
+ DPO ：
+  1.  GSM8K （）
+  2. （chosen）（rejected）
+  3.  DPO ，
+  4. 
+  5.  DPO 
 
-核心思想：
-  - 不需要人类标注"哪个回答更好"
-  - 用规则（答案是否正确）自动生成偏好标签
-  - DPO 从这些规则信号中学习正确的推理模式
+：
+  - ""
+  - （）
+  - DPO 
 
-运行方式：
+：
   pip install -r requirements.txt
   python dpo_math_reward.py
 """
@@ -28,80 +28,80 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 from trl import DPOTrainer, DPOConfig
 
 # ==========================================
-# 1. 构造 GSM8K 风格的数学偏好数据
+# 1.  GSM8K 
 # ==========================================
-# 每条数据包含一道数学题，以及正确和错误的解题过程
-# 我们使用简单的算术题，便于自动验证答案
+# ，
+# ，
 
 def create_math_preference_data():
     """
-    创建数学推理的偏好数据集
+    
 
-    每条数据包含：
-    - prompt: 数学问题
-    - chosen: 正确的、逐步推理的解答过程
-    - rejected: 包含推理错误的解答过程
+    ：
+    - prompt: 
+    - chosen: 、
+    - rejected: 
     """
 
     math_examples = [
         {
-            "prompt": "小明有 15 个苹果，给了小红 7 个，又买了 3 个。请问小明现在有几个苹果？",
-            "chosen": "我们一步步来算。\n第一步：小明原来有 15 个苹果。\n第二步：给了小红 7 个，所以剩下 15 - 7 = 8 个。\n第三步：又买了 3 个，所以现在有 8 + 3 = 11 个。\n答：小明现在有 11 个苹果。",
-            "rejected": "小明原来有 15 个苹果。\n给了小红 7 个，剩下 15 - 7 = 9 个。（错误：15-7=8，不是9）\n又买了 3 个，所以有 9 + 3 = 12 个。\n答：小明现在有 12 个苹果。",
+            "prompt": " 15 ， 7 ， 3 。？",
+            "chosen": "。\n： 15 。\n： 7 ， 15 - 7 = 8 。\n： 3 ， 8 + 3 = 11 。\n： 11 。",
+            "rejected": " 15 。\n 7 ， 15 - 7 = 9 。（：15-7=8，9）\n 3 ， 9 + 3 = 12 。\n： 12 。",
             "answer": 11,
         },
         {
-            "prompt": "一本书有 240 页，小红每天看 30 页，看了 5 天。还剩多少页没看？",
-            "chosen": "我们一步步来算。\n第一步：小红每天看 30 页，看了 5 天。\n第二步：已经看了 30 × 5 = 150 页。\n第三步：总共有 240 页，所以还剩 240 - 150 = 90 页。\n答：还剩 90 页没看。",
-            "rejected": "小红每天看 30 页，看了 5 天。\n已经看了 30 + 5 = 35 页。（错误：应该用乘法，不是加法）\n还剩 240 - 35 = 205 页。\n答：还剩 205 页没看。",
+            "prompt": " 240 ， 30 ， 5 。？",
+            "chosen": "。\n： 30 ， 5 。\n： 30 × 5 = 150 。\n： 240 ， 240 - 150 = 90 。\n： 90 。",
+            "rejected": " 30 ， 5 。\n 30 + 5 = 35 。（：，）\n 240 - 35 = 205 。\n： 205 。",
             "answer": 90,
         },
         {
-            "prompt": "一个长方形的长是 12 厘米，宽是 8 厘米，求面积。",
-            "chosen": "长方形的面积 = 长 × 宽。\n长 = 12 厘米，宽 = 8 厘米。\n面积 = 12 × 8 = 96 平方厘米。\n答：面积是 96 平方厘米。",
-            "rejected": "长方形的面积 = 长 + 宽。（错误：面积是乘法，不是加法）\n面积 = 12 + 8 = 20 平方厘米。\n答：面积是 20 平方厘米。",
+            "prompt": " 12 ， 8 ，。",
+            "chosen": " =  × 。\n = 12 ， = 8 。\n = 12 × 8 = 96 。\n： 96 。",
+            "rejected": " =  + 。（：，）\n = 12 + 8 = 20 。\n： 20 。",
             "answer": 96,
         },
         {
-            "prompt": "商店里有 36 个篮球和 24 个足球，篮球比足球多几个？",
-            "chosen": "篮球有 36 个，足球有 24 个。\n篮球比足球多 36 - 24 = 12 个。\n答：篮球比足球多 12 个。",
-            "rejected": "篮球有 36 个，足球有 24 个。\n篮球和足球一共 36 + 24 = 60 个。（错误：题目问的是差值，不是总数）\n答：篮球比足球多 60 个。",
+            "prompt": " 36  24 ，？",
+            "chosen": " 36 ， 24 。\n 36 - 24 = 12 。\n： 12 。",
+            "rejected": " 36 ， 24 。\n 36 + 24 = 60 。（：，）\n： 60 。",
             "answer": 12,
         },
         {
-            "prompt": "一箱橘子有 48 个，平均分给 6 个小朋友，每人能分几个？",
-            "chosen": "总共 48 个橘子，平均分给 6 个小朋友。\n每人分到 48 ÷ 6 = 8 个。\n答：每人能分到 8 个橘子。",
-            "rejected": "总共 48 个橘子，平均分给 6 个小朋友。\n每人分到 48 - 6 = 42 个。（错误：应该用除法，不是减法）\n答：每人能分到 42 个橘子。",
+            "prompt": " 48 ， 6 ，？",
+            "chosen": " 48 ， 6 。\n 48 ÷ 6 = 8 。\n： 8 。",
+            "rejected": " 48 ， 6 。\n 48 - 6 = 42 。（：，）\n： 42 。",
             "answer": 8,
         },
         {
-            "prompt": "一个三角形的底是 10 厘米，高是 6 厘米，求面积。",
-            "chosen": "三角形的面积 = 底 × 高 ÷ 2。\n底 = 10 厘米，高 = 6 厘米。\n面积 = 10 × 6 ÷ 2 = 30 平方厘米。\n答：面积是 30 平方厘米。",
-            "rejected": "三角形的面积 = 底 × 高。（错误：三角形面积要除以2）\n面积 = 10 × 6 = 60 平方厘米。\n答：面积是 60 平方厘米。",
+            "prompt": " 10 ， 6 ，。",
+            "chosen": " =  ×  ÷ 2。\n = 10 ， = 6 。\n = 10 × 6 ÷ 2 = 30 。\n： 30 。",
+            "rejected": " =  × 。（：2）\n = 10 × 6 = 60 。\n： 60 。",
             "answer": 30,
         },
         {
-            "prompt": "一列火车每小时行驶 80 公里，行驶了 3.5 小时，共行驶多少公里？",
-            "chosen": "速度 = 80 公里/小时，时间 = 3.5 小时。\n路程 = 速度 × 时间 = 80 × 3.5 = 280 公里。\n答：共行驶 280 公里。",
-            "rejected": "速度 = 80 公里/小时，时间 = 3.5 小时。\n路程 = 80 + 3.5 = 83.5 公里。（错误：应该用乘法，不是加法）\n答：共行驶 83.5 公里。",
+            "prompt": " 80 ， 3.5 ，？",
+            "chosen": " = 80 /， = 3.5 。\n =  ×  = 80 × 3.5 = 280 。\n： 280 。",
+            "rejected": " = 80 /， = 3.5 。\n = 80 + 3.5 = 83.5 。（：，）\n： 83.5 。",
             "answer": 280,
         },
         {
-            "prompt": "妈妈买了 3 千克苹果，每千克 12 元，又买了 2 千克香蕉，每千克 8 元。一共花了多少钱？",
-            "chosen": "苹果花了：3 × 12 = 36 元。\n香蕉花了：2 × 8 = 16 元。\n一共花了 36 + 16 = 52 元。\n答：一共花了 52 元。",
-            "rejected": "苹果花了：3 × 12 = 36 元。\n香蕉花了：2 × 8 = 16 元。\n一共花了 36 × 16 = 576 元。（错误：应该用加法，不是乘法）\n答：一共花了 576 元。",
+            "prompt": " 3 ， 12 ， 2 ， 8 。？",
+            "chosen": "：3 × 12 = 36 。\n：2 × 8 = 16 。\n 36 + 16 = 52 。\n： 52 。",
+            "rejected": "：3 × 12 = 36 。\n：2 × 8 = 16 。\n 36 × 16 = 576 。（：，）\n： 576 。",
             "answer": 52,
         },
         {
-            "prompt": "一个正方形的边长是 9 厘米，求周长。",
-            "chosen": "正方形的周长 = 边长 × 4。\n边长 = 9 厘米。\n周长 = 9 × 4 = 36 厘米。\n答：周长是 36 厘米。",
-            "rejected": "正方形的周长 = 边长 × 边长。（错误：这是面积公式，不是周长）\n周长 = 9 × 9 = 81 厘米。\n答：周长是 81 厘米。",
+            "prompt": " 9 ，。",
+            "chosen": " =  × 4。\n = 9 。\n = 9 × 4 = 36 。\n： 36 。",
+            "rejected": " =  × 。（：，）\n = 9 × 9 = 81 。\n： 81 。",
             "answer": 36,
         },
         {
-            "prompt": "爸爸今年 42 岁，儿子今年 12 岁。5 年后爸爸比儿子大多少岁？",
-            "chosen": "年龄差不会随时间变化。\n现在爸爸比儿子大 42 - 12 = 30 岁。\n5 年后爸爸比儿子仍然大 30 岁。\n答：5 年后爸爸比儿子大 30 岁。",
-            "rejected": "5 年后爸爸 42 + 5 = 47 岁，儿子 12 + 5 = 17 岁。\n爸爸比儿子大 47 - 12 = 35 岁。（错误：儿子的年龄也加5了，计算差值时却没加）\n答：5 年后爸爸比儿子大 35 岁。",
+            "prompt": " 42 ， 12 。5 ？",
+            "chosen": "。\n 42 - 12 = 30 。\n5  30 。\n：5  30 。",
+            "rejected": "5  42 + 5 = 47 ， 12 + 5 = 17 。\n 47 - 12 = 35 。（：5，）\n：5  35 。",
             "answer": 30,
         },
     ]
@@ -110,33 +110,33 @@ def create_math_preference_data():
 
 
 # ==========================================
-# 2. 准备测试集数据（用于评估准确率）
+# 2. （）
 # ==========================================
 
 def create_test_data():
     """
-    创建独立的测试集，与训练数据不重叠
-    用于评估 DPO 训练前后的数学推理能力
+    ，
+     DPO 
     """
     test_examples = [
         {
-            "prompt": "有 56 个糖果，平均分给 8 个小朋友，每人分几个？",
+            "prompt": " 56 ， 8 ，？",
             "answer": 7,
         },
         {
-            "prompt": "小明每天跑步 5 公里，跑了 7 天，一共跑了多少公里？",
+            "prompt": " 5 ， 7 ，？",
             "answer": 35,
         },
         {
-            "prompt": "一个长方形的长是 15 厘米，宽是 4 厘米，求周长。",
+            "prompt": " 15 ， 4 ，。",
             "answer": 38,
         },
         {
-            "prompt": "水果店有 100 个苹果，卖出了 37 个，又进货 20 个，现在有几个？",
+            "prompt": " 100 ， 37 ， 20 ，？",
             "answer": 83,
         },
         {
-            "prompt": "一箱牛奶有 24 盒，学校买了 5 箱，一共有多少盒牛奶？",
+            "prompt": " 24 ， 5 ，？",
             "answer": 120,
         },
     ]
@@ -144,38 +144,38 @@ def create_test_data():
 
 
 # ==========================================
-# 3. 定义辅助函数
+# 3. 
 # ==========================================
 
 def extract_number(text):
-    """从模型回复中提取最终的数字答案"""
-    # 尝试匹配 "答：...是 X" 或 "答：X" 中的数字
+    """"""
+    #  "：... X"  "：X" 
     patterns = [
-        r"答[：:][^0-9]*?(\d+)",
-        r"答案是\s*(\d+)",
-        r"结果是\s*(\d+)",
-        r"等于\s*(\d+)",
+        r"[：:][^0-9]*?(\d+)",
+        r"\s*(\d+)",
+        r"\s*(\d+)",
+        r"\s*(\d+)",
     ]
     for pattern in patterns:
         match = re.findall(pattern, text)
         if match:
-            return int(match[-1])  # 取最后一个匹配
+            return int(match[-1])  # 
 
-    # 如果以上都没匹配到，尝试找文本中最后出现的数字
+    # ，
     numbers = re.findall(r"\d+", text)
     if numbers:
         return int(numbers[-1])
     return None
 
 
-def evaluate_math(model, tokenizer, test_data, label="模型"):
+def evaluate_math(model, tokenizer, test_data, label=""):
     """
-    在测试集上评估模型的数学推理准确率
+    
 
-    对每道题生成回答，提取数字答案，与正确答案对比
+    ，，
     """
     print("=" * 60)
-    print(f"【{label}数学推理评估】")
+    print(f"【{label}】")
     print("=" * 60)
 
     correct = 0
@@ -185,7 +185,7 @@ def evaluate_math(model, tokenizer, test_data, label="模型"):
         prompt = item["prompt"]
         true_answer = item["answer"]
 
-        # 生成模型的回答
+        # 
         messages = [{"role": "user", "content": prompt}]
         text = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
         inputs = tokenizer([text], return_tensors="pt").to(model.device)
@@ -199,73 +199,73 @@ def evaluate_math(model, tokenizer, test_data, label="模型"):
         is_correct = predicted_answer == true_answer
         correct += int(is_correct)
 
-        status = "正确" if is_correct else "错误"
-        print(f"  题 {i+1}: {prompt[:30]}...")
-        print(f"    模型回答: {response[:80]}...")
-        print(f"    预测答案: {predicted_answer} | 正确答案: {true_answer} | {status}")
+        status = "" if is_correct else ""
+        print(f"   {i+1}: {prompt[:30]}...")
+        print(f"    : {response[:80]}...")
+        print(f"    : {predicted_answer} | : {true_answer} | {status}")
         print()
 
     accuracy = correct / total * 100
-    print(f"  准确率: {correct}/{total} = {accuracy:.1f}%")
+    print(f"  : {correct}/{total} = {accuracy:.1f}%")
     print("=" * 60)
     return accuracy
 
 
 # ==========================================
-# 4. 主流程开始
+# 4. 
 # ==========================================
 
 print("=" * 60)
-print("  DPO 数学推理对齐实验")
-print("  ——基于规则的偏好信号训练")
+print("  DPO ")
+print("  ——")
 print("=" * 60)
 print()
 
-# 准备数据
+# 
 math_data = create_math_preference_data()
 test_data = create_test_data()
 
-print(f"训练集大小: {len(math_data)} 条数学偏好数据")
-print(f"测试集大小: {len(test_data)} 道数学题")
+print(f": {len(math_data)} ")
+print(f": {len(test_data)} ")
 print()
-print("偏好数据的构造方式：")
-print("  - chosen:  正确的逐步推理过程（每一步计算都正确）")
-print("  - rejected: 包含推理错误的解答（某一步计算或公式出错）")
-print("  - 这种偏好信号无需人类标注，完全由规则自动生成")
+print("：")
+print("  - chosen:  （）")
+print("  - rejected: （）")
+print("  - ，")
 print()
 
 
 # ==========================================
-# 5. 加载模型并评估训练前表现
+# 5. 
 # ==========================================
 
 MODEL_NAME = "Qwen/Qwen2.5-0.5B-Instruct"
 
-print(f"正在加载基础模型 {MODEL_NAME} ...")
+print(f" {MODEL_NAME} ...")
 tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
 tokenizer.pad_token = tokenizer.eos_token
 
 model_before = AutoModelForCausalLM.from_pretrained(MODEL_NAME, device_map="auto")
 
-before_accuracy = evaluate_math(model_before, tokenizer, test_data, label="训练前")
+before_accuracy = evaluate_math(model_before, tokenizer, test_data, label="")
 
-# 释放显存
+# 
 del model_before
 torch.cuda.empty_cache() if torch.cuda.is_available() else None
 
 
 # ==========================================
-# 6. DPO 训练
+# 6. DPO 
 # ==========================================
 
-print("\n开始 DPO 训练，使用基于规则的数学偏好数据...")
+print("\n DPO ，...")
 
-# 重新加载模型用于训练
+# 
 model = AutoModelForCausalLM.from_pretrained(MODEL_NAME)
 train_tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
 train_tokenizer.pad_token = train_tokenizer.eos_token
 
-# 构造 HuggingFace Dataset
+#  HuggingFace Dataset
 data_dict = {
     "prompt": [item["prompt"] for item in math_data],
     "chosen": [item["chosen"] for item in math_data],
@@ -273,12 +273,12 @@ data_dict = {
 }
 train_dataset = Dataset.from_dict(data_dict)
 
-# 配置训练参数
+# 
 training_args = DPOConfig(
     output_dir="./dpo_math_results",
     per_device_train_batch_size=2,
     learning_rate=5e-5,
-    num_train_epochs=5,         # 数学推理需要更多轮次来学习推理模式
+    num_train_epochs=5,         # 
     logging_steps=2,
     save_strategy="no",
     bf16=torch.cuda.is_bf16_supported() if torch.cuda.is_available() else False,
@@ -286,7 +286,7 @@ training_args = DPOConfig(
     beta=0.1,
 )
 
-# 创建 DPOTrainer
+#  DPOTrainer
 trainer = DPOTrainer(
     model=model,
     args=training_args,
@@ -294,22 +294,22 @@ trainer = DPOTrainer(
     processing_class=train_tokenizer,
 )
 
-print("\n训练中... 请观察 loss 和 reward 的变化趋势\n")
+print("\n...  loss  reward \n")
 train_result = trainer.train()
 
 # ==========================================
-# 7. 打印训练指标
+# 7. 
 # ==========================================
 
 print("\n" + "=" * 60)
-print("【训练指标详情】")
+print("【】")
 print("=" * 60)
-print(f"最终训练 Loss: {train_result.training_loss:.4f}")
+print(f" Loss: {train_result.training_loss:.4f}")
 print()
 
-# 解析训练日志中的奖励信息
+# 
 log_history = trainer.state.log_history
-print("各步骤的训练指标：")
+print("：")
 print(f"{'Step':>6} | {'Loss':>8} | {'Chosen Reward':>14} | {'Rejected Reward':>16} | {'Margin':>8}")
 print("-" * 70)
 
@@ -321,7 +321,7 @@ for entry in log_history:
         rejected_r = entry.get("rewards/rejected", "N/A")
         margin = entry.get("rewards/margins", "N/A")
 
-        # 格式化输出
+        # 
         if isinstance(chosen_r, float):
             chosen_r = f"{chosen_r:.4f}"
         if isinstance(rejected_r, float):
@@ -331,59 +331,59 @@ for entry in log_history:
 
         print(f"{step:>6} | {loss:>8.4f} | {chosen_r:>14} | {rejected_r:>16} | {margin:>8}")
 
-# 保存模型
+# 
 save_path = "./dpo_math_results/final_model"
 trainer.save_model(save_path)
-print(f"\n模型已保存至 {save_path}")
+print(f"\n {save_path}")
 
 
 # ==========================================
-# 8. 评估训练后的模型
+# 8. 
 # ==========================================
 
-# 加载训练后的模型进行评估
-print("\n加载训练后的模型进行评估...")
+# 
+print("\n...")
 model_after = AutoModelForCausalLM.from_pretrained(save_path, device_map="auto")
 eval_tokenizer = AutoTokenizer.from_pretrained(save_path)
 eval_tokenizer.pad_token = eval_tokenizer.eos_token
 
-after_accuracy = evaluate_math(model_after, eval_tokenizer, test_data, label="训练后")
+after_accuracy = evaluate_math(model_after, eval_tokenizer, test_data, label="")
 
 
 # ==========================================
-# 9. 结果对比与总结
+# 9. 
 # ==========================================
 
 print("\n" + "=" * 60)
-print("【DPO 数学推理对齐 — 最终结果对比】")
+print("【DPO  — 】")
 print("=" * 60)
 print()
-print(f"  训练前准确率: {before_accuracy:.1f}%")
-print(f"  训练后准确率: {after_accuracy:.1f}%")
-print(f"  提升幅度: {after_accuracy - before_accuracy:+.1f}%")
+print(f"  : {before_accuracy:.1f}%")
+print(f"  : {after_accuracy:.1f}%")
+print(f"  : {after_accuracy - before_accuracy:+.1f}%")
 print()
 
 print("=" * 60)
-print("【实验总结】")
+print("【】")
 print("=" * 60)
 print("""
-1. 基于规则的偏好信号：
-   本实验不依赖人类标注，而是通过"答案是否正确"这一简单规则
-   自动生成 chosen/rejected 对。这种方法可大规模扩展到更多题目。
+1. ：
+   ，""
+    chosen/rejected 。。
 
-2. DPO 在数学推理中的效果：
-   - DPO 可以学习到正确的推理模式（如选择正确的运算符）
-   - 训练后模型在面对新题目时，更倾向于使用正确的解题策略
-   - 但 0.5B 参数量较小，对复杂推理的提升有限
+2. DPO ：
+   - DPO （）
+   - ，
+   -  0.5B ，
 
-3. 与 RLHF 的对比：
-   - 传统 RLHF: 需要训练奖励模型 → 用 PPO 优化策略
-   - DPO 方法: 直接用偏好数据优化，跳过奖励模型训练
-   - 对于规则明确的任务（如数学），DPO + 规则信号非常高效
+3.  RLHF ：
+   -  RLHF:  →  PPO 
+   - DPO : ，
+   - （），DPO + 
 
-4. 实际扩展方向：
-   - 使用更大的模型（7B、14B）获得更好的推理能力
-   - 增加训练数据量（如完整的 GSM8K 数据集）
-   - 结合 Chain-of-Thought 提示提升推理深度
-   - 使用多个错误的 rejected 样本增强对比学习效果
+4. ：
+   - （7B、14B）
+   - （ GSM8K ）
+   -  Chain-of-Thought 
+   -  rejected 
 """)

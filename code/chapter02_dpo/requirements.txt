@@ -1,4 +1,4 @@
-# 第2章：DPO 偏好微调实验依赖
+# 2：DPO 
 transformers==4.57.3
 trl==0.24.0
 torch>=2.0.0

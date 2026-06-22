@@ -27,7 +27,7 @@ const discordUrl = 'https://discord.gg/XU7DQmpqk'
       <div class="ct-sidebar-footer-actions">
         <button
           class="ct-sidebar-footer-btn"
-          :title="isDark ? '切换到浅色' : '切换到深色'"
+          :title="isDark ? '' : ''"
           @click="toggleAppearance"
         >
           <Sun v-if="isDark" :size="16" :stroke-width="2" />
@@ -35,7 +35,7 @@ const discordUrl = 'https://discord.gg/XU7DQmpqk'
         </button>
         <button
           class="ct-sidebar-footer-btn"
-          title="阅读与外观设置"
+          title=""
           @click="emit('open-settings')"
         >
           <Settings :size="16" :stroke-width="2" />

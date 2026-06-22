@@ -205,7 +205,7 @@ z
      </g>
     </g>
     <g id="text_6">
-     <!-- 训练回合 -->
+     <!--  -->
      <g transform="translate(157.098359 253.699531) scale(0.12 -0.12)">
       <defs>
        <path id="PingFangHK-Regular-8bad" d="M 4083 4787 
@@ -1110,7 +1110,7 @@ z
      </g>
     </g>
     <g id="text_20">
-     <!-- 训练回合 -->
+     <!--  -->
      <g transform="translate(496.178359 253.699531) scale(0.12 -0.12)">
       <use xlink:href="#PingFangHK-Regular-8bad"/>
       <use xlink:href="#PingFangHK-Regular-7ec3" transform="translate(99.999985 0)"/>
@@ -1625,7 +1625,7 @@ L 652.165467 223.778594
 " style="fill: none; stroke: #000000; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
    </g>
    <g id="text_31">
-    <!-- $\ln 2 \approx 0.69$（均匀随机） -->
+    <!-- $\ln 2 \approx 0.69$（） -->
     <g style="fill: #9ca3af" transform="translate(406.21964 41.592064) scale(0.09 -0.09)">
      <defs>
       <path id="Cmr10-6c" d="M 197 0 
@@ -2329,7 +2329,7 @@ z
      </g>
     </g>
     <g id="text_38">
-     <!-- 训练回合 -->
+     <!--  -->
      <g transform="translate(835.258359 253.699531) scale(0.12 -0.12)">
       <use xlink:href="#PingFangHK-Regular-8bad"/>
       <use xlink:href="#PingFangHK-Regular-7ec3" transform="translate(99.999985 0)"/>

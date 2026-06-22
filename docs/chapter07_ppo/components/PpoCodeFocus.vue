@@ -24,17 +24,17 @@ const suppressHover = ref(false)
 const codePre = ref(null)
 
 const segments = [
-  { id: 'A', label: '策略与价值计算', range: [21, 27] },
-  { id: 'B', label: '动作采样', range: [29, 42] },
-  { id: 'C', label: '经验收集', range: [45, 74] },
-  { id: 'D', label: '优势估计', range: [77, 92] },
-  { id: 'E', label: '损失计算', range: [95, 137] },
-  { id: 'F', label: '训练循环', range: [140, 149] }
+  { id: 'A', label: '', range: [21, 27] },
+  { id: 'B', label: '', range: [29, 42] },
+  { id: 'C', label: '', range: [45, 74] },
+  { id: 'D', label: '', range: [77, 92] },
+  { id: 'E', label: '', range: [95, 137] },
+  { id: 'F', label: '', range: [140, 149] }
 ]
 
 const focusMap = {
   overview: {
-    title: 'PPO 实现结构总览',
+    title: 'PPO ',
     active: ['A', 'B', 'C', 'D', 'E', 'F'],
     compactRanges: [
       [21, 42],
@@ -51,13 +51,13 @@ const focusMap = {
     ]
   },
   dist: {
-    title: '动作分布 dist / log_prob',
+    title: ' dist / log_prob',
     active: ['A', 'B'],
     compactRanges: [[21, 42]],
     highlight: [25, 26, 32, 33, 34, 35, 39, 40, 41, 42]
   },
   advantages: {
-    title: '优势估计 advantages 与 value_loss',
+    title: ' advantages  value_loss',
     active: ['D', 'E'],
     compactRanges: [
       [77, 92],
@@ -66,37 +66,37 @@ const focusMap = {
     highlight: [86, 87, 90, 91, 108, 109, 110]
   },
   oldLogprobs: {
-    title: '旧策略概率 old_logprobs',
+    title: ' old_logprobs',
     active: ['C'],
     compactRanges: [[45, 74]],
     highlight: [52, 53, 62, 72]
   },
   ratio: {
-    title: '策略比率 ratio',
+    title: ' ratio',
     active: ['E'],
     compactRanges: [[95, 101]],
     highlight: [97, 98]
   },
   surr1: {
-    title: '未裁剪代理目标 surr1',
+    title: ' surr1',
     active: ['E'],
     compactRanges: [[95, 101]],
     highlight: [98]
   },
   clip: {
-    title: 'PPO-Clip 更新核心',
+    title: 'PPO-Clip ',
     active: ['E'],
     compactRanges: [[95, 101]],
     highlight: [97, 98, 99, 100]
   },
   loss: {
-    title: '总 loss 与反向传播',
+    title: ' loss ',
     active: ['E'],
     compactRanges: [[128, 137]],
     highlight: [130, 131, 132, 133, 135, 136, 137]
   },
   train: {
-    title: 'PPO 训练循环',
+    title: 'PPO ',
     active: ['F'],
     compactRanges: [[140, 149]],
     highlight: [146, 147, 148, 149]
@@ -109,8 +109,8 @@ const isExpanded = computed(
 )
 const activeTitle = computed(() => props.title || config.value.title)
 const toggleLabel = computed(() => {
-  if (pinned.value) return '收起完整代码'
-  return isExpanded.value ? '固定完整代码' : '展开完整代码'
+  if (pinned.value) return ''
+  return isExpanded.value ? '' : ''
 })
 
 const highlighted = computed(() => new Set(config.value.highlight))
@@ -220,7 +220,7 @@ function handleMouseLeave() {
       </span>
     </button>
 
-    <div class="ppo-code-focus-segments" aria-label="PPO 代码结构">
+    <div class="ppo-code-focus-segments" aria-label="PPO ">
       <button
         v-for="segment in segments"
         :key="segment.id"
@@ -235,8 +235,8 @@ function handleMouseLeave() {
     </div>
 
     <button class="ppo-code-focus-status" type="button" @click="togglePinned">
-      <span>{{ isExpanded ? '完整代码视图' : '局部重点视图' }}</span>
-      <span>{{ pinned ? '点击收起局部视图' : '点击固定完整代码' }}</span>
+      <span>{{ isExpanded ? '' : '' }}</span>
+      <span>{{ pinned ? '' : '' }}</span>
     </button>
 
     <pre

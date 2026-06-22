@@ -4,7 +4,7 @@ import torch.nn.functional as F
 
 
 class Policy:
-    """包装一个语言模型，提供 generate() 和 train_step_with_advantage() 两个接口。"""
+    """， generate()  train_step_with_advantage() 。"""
 
     def __init__(self, model, tokenizer, lr=1e-5):
         self.model = model
@@ -13,19 +13,19 @@ class Policy:
         self.ref_model = None  # reference model for KL penalty
 
     def set_ref_model(self, ref_model):
-        """保存一份初始权重的拷贝，用作 KL 散度计算的锚点。"""
+        """， KL 。"""
         self.ref_model = ref_model
 
     @torch.no_grad()
     def generate(self, prompt: str, max_new_tokens=128) -> str:
-        """推理模式：给定 prompt，生成文本。"""
+        """： prompt，。"""
         inputs = self.tokenizer(prompt, return_tensors="pt").to(self.model.device)
         outputs = self.model.generate(**inputs, max_new_tokens=max_new_tokens)
         return self.tokenizer.decode(outputs[0], skip_special_tokens=True)
 
     @torch.no_grad()
     def get_logprobs(self, prompt: str, response: str) -> torch.Tensor:
-        """计算模型对给定 response 中每个 token 的 log probability。"""
+        """ response  token  log probability。"""
         full_text = prompt + response
         inputs = self.tokenizer(full_text, return_tensors="pt").to(self.model.device)
         logits = self.model(**inputs).logits
@@ -40,7 +40,7 @@ class Policy:
 
     def train_step_with_advantage(self, trajectories: list):
         """
-        一个 GRPO 训练步。
+         GRPO 。
         trajectories: list of (prompt, response, advantage)
         """
         losses = []

@@ -205,7 +205,7 @@ z
      </g>
     </g>
     <g id="text_6">
-     <!-- 训练步数 -->
+     <!--  -->
      <g transform="translate(152.903984 253.665781) scale(0.12 -0.12)">
       <defs>
        <path id="PingFangHK-Regular-8bad" d="M 4083 4787 
@@ -1012,7 +1012,7 @@ L 307.466092 223.744844
 " style="fill: none; stroke: #000000; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
    </g>
    <g id="text_17">
-    <!-- ln2 ≈ 0.69（随机水平） -->
+    <!-- ln2 ≈ 0.69（） -->
     <g style="fill: #9ca3af" transform="translate(64.175621 52.710217) scale(0.09 -0.09)">
      <defs>
       <path id="PingFangHK-Regular-6c" d="M 499 4659 
@@ -1549,7 +1549,7 @@ z
      </g>
     </g>
     <g id="text_24">
-     <!-- 训练步数 -->
+     <!--  -->
      <g transform="translate(494.173984 253.665781) scale(0.12 -0.12)">
       <use xlink:href="#PingFangHK-Regular-8bad"/>
       <use xlink:href="#PingFangHK-Regular-7ec3" transform="translate(99.999985 0)"/>
@@ -1943,7 +1943,7 @@ L 648.736092 223.744844
 " style="fill: none; stroke: #000000; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
    </g>
    <g id="text_35">
-    <!-- margin = 0（无法区分好坏） -->
+    <!-- margin = 0（） -->
     <g style="fill: #9ca3af" transform="translate(405.445621 209.031582) scale(0.09 -0.09)">
      <defs>
       <path id="PingFangHK-Regular-6d" d="M 1843 3398 
@@ -2440,7 +2440,7 @@ z
      </g>
     </g>
     <g id="text_42">
-     <!-- 训练步数 -->
+     <!--  -->
      <g transform="translate(835.443984 253.665781) scale(0.12 -0.12)">
       <use xlink:href="#PingFangHK-Regular-8bad"/>
       <use xlink:href="#PingFangHK-Regular-7ec3" transform="translate(99.999985 0)"/>
@@ -2837,7 +2837,7 @@ L 990.006092 223.744844
 " style="fill: none; stroke: #000000; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
    </g>
    <g id="text_51">
-    <!-- 0.5（随机猜测水平） -->
+    <!-- 0.5（） -->
     <g style="fill: #9ca3af" transform="translate(746.715621 198.996382) scale(0.09 -0.09)">
      <defs>
       <path id="PingFangHK-Regular-731c" d="M 3968 5229 

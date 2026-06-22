@@ -1,21 +1,21 @@
 """
-第1章：使用 Stable-Baselines3 的 PPO 训练 CartPole
+1： Stable-Baselines3  PPO  CartPole
 
-训练过程通过 SwanLab 记录指标（奖励曲线、损失等），
-训练结束后可选弹出 GUI 窗口展示学习成果。
+ SwanLab （、），
+ GUI 。
 
-运行方式：
-    # 默认：训练 + SwanLab 曲线（不开 GUI，速度快）
+：
+    # ： + SwanLab （ GUI，）
     python 1-ppo_cartpole.py
 
-    # 打开 GUI 演示（训练完弹出小车动画窗口）
+    #  GUI （）
     python 1-ppo_cartpole.py --gui
 
-关于 --gui 参数：
-    训练阶段始终是 headless（无渲染），速度不受 GUI 影响。
-    --gui 只控制训练结束后的演示环节是否弹出 CartPole 动画窗口。
-    开启 GUI 时，演示环节每帧需要等待屏幕刷新（~16ms），会明显变慢；
-    关闭 GUI 时，演示环节纯计算，几秒内跑完。
+ --gui ：
+     headless（）， GUI 。
+    --gui  CartPole 。
+     GUI ，（~16ms），；
+     GUI ，，。
 """
 
 import argparse
@@ -32,23 +32,23 @@ import swanlab
 
 
 class LogApproxKL(BaseCallback):
-    """补录 train/approx_kl 到 SwanLab。
+    """ train/approx_kl  SwanLab。
 
-    SB3 的 PPO.train() 内部通过 logger.record("train/approx_kl", ...) 记录了该指标，
-    但值为 numpy.float32 类型。SwanLab 的 SB3 回调在 write() 中使用
-    isinstance(value, (int, float)) 做类型检查，而 numpy.float32 不通过该检查
-    （numpy.float64 和 Python float 可以通过），导致 approx_kl 被静默跳过。
+    SB3  PPO.train()  logger.record("train/approx_kl", ...) ，
+     numpy.float32 。SwanLab  SB3  write() 
+    isinstance(value, (int, float)) ， numpy.float32 
+    （numpy.float64  Python float ）， approx_kl 。
 
-    本回调在每次 train() 执行完毕后，从 logger 缓存中取出 approx_kl 值，
-    转为 Python float 后直接通过 swanlab.log 补录。
+     train() ， logger  approx_kl ，
+     Python float  swanlab.log 。
     """
 
     def _on_step(self) -> bool:
         return True
 
     def _on_rollout_end(self) -> None:
-        # train() 已在 _on_rollout_end 触发前执行完毕，
-        # logger 缓存中包含本轮 train 的所有指标。
+        # train()  _on_rollout_end ，
+        # logger  train 。
         logger = self.model.logger
         if hasattr(logger, "name_to_value") and "train/approx_kl" in logger.name_to_value:
             value = float(logger.name_to_value["train/approx_kl"])
@@ -56,21 +56,21 @@ class LogApproxKL(BaseCallback):
 
 
 class RestoreStdoutLog(BaseCallback):
-    """把 SB3 往终端打印的滚动日志表格加回来。
+    """ SB3 。
 
-    SwanLabCallback._init_callback() 内部会调用 self.model.set_logger(...)，
-    用一个"只写 SwanLab"的 logger 整体替换掉 SB3 默认 logger，
-    顺带删掉了负责往 stdout 打印 ep_rew_mean / fps / approx_kl 表格的
-    HumanOutputFormat（即 verbose=1 的滚动日志）。
+    SwanLabCallback._init_callback()  self.model.set_logger(...)，
+    " SwanLab" logger  SB3  logger，
+     stdout  ep_rew_mean / fps / approx_kl 
+    HumanOutputFormat（ verbose=1 ）。
 
-    本回调在 _init_callback 阶段执行（此时 SwanLabCallback 已替换完 logger），
-    向当前 logger 补回一个 stdout 输出端，于是终端重新滚动打印，
-    同时 SwanLab 记录不受影响。需放在 callback 列表中 SwanLabCallback 之后。
+     _init_callback （ SwanLabCallback  logger），
+     logger  stdout ，，
+     SwanLab 。 callback  SwanLabCallback 。
     """
 
     def _init_callback(self) -> None:
-        # SwanLabCallback 已把 logger 换成只含 SwanLabOutputFormat，
-        # 这里补回一个 stdout 输出端，即可恢复 verbose=1 的滚动表格。
+        # SwanLabCallback  logger  SwanLabOutputFormat，
+        #  stdout ， verbose=1 。
         self.model.logger.output_formats.append(HumanOutputFormat(sys.stdout))
 
     def _on_step(self) -> bool:
@@ -78,10 +78,10 @@ class RestoreStdoutLog(BaseCallback):
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="SB3 PPO CartPole 训练")
+    parser = argparse.ArgumentParser(description="SB3 PPO CartPole ")
     parser.add_argument(
         "--gui", action="store_true",
-        help="训练结束后弹出 GUI 窗口演示智能体（默认关闭，仅输出得分）",
+        help=" GUI （，）",
     )
     return parser.parse_args()
 
@@ -91,26 +91,26 @@ def main():
     os.makedirs("output", exist_ok=True)
 
     # ==========================================
-    # 第一阶段：训练
+    # ：
     # ==========================================
     env = gym.make("CartPole-v1")
 
-    # 打印环境信息（状态空间、动作空间、边界阈值）
+    # （、、）
     print("=" * 50)
-    print("CartPole-v1 环境信息")
+    print("CartPole-v1 ")
     print("=" * 50)
-    print(f"  观测空间:  {env.observation_space}")
-    print(f"  动作空间:  {env.action_space}")
-    print(f"  观测上限:  {env.observation_space.high}")
-    print(f"  观测下限:  {env.observation_space.low}")
-    print(f"  终止条件:  位置 > ±{env.unwrapped.x_threshold}, "
-          f"角度 > ±{env.unwrapped.theta_threshold_radians:.4f} rad "
+    print(f"  :  {env.observation_space}")
+    print(f"  :  {env.action_space}")
+    print(f"  :  {env.observation_space.high}")
+    print(f"  :  {env.observation_space.low}")
+    print(f"  :   > ±{env.unwrapped.x_threshold}, "
+          f" > ±{env.unwrapped.theta_threshold_radians:.4f} rad "
           f"(≈ ±{np.degrees(env.unwrapped.theta_threshold_radians):.0f}°)")
     print("=" * 50)
 
     model = PPO("MlpPolicy", env, verbose=1)
 
-    print("开始训练（带 SwanLab 日志）...")
+    print("（ SwanLab ）...")
     swanlab_cb = SwanLabCallback(
         project="cartpole-ppo",
         experiment_name="PPO-CartPole-v1",
@@ -121,17 +121,17 @@ def main():
         callback=[swanlab_cb, RestoreStdoutLog(), LogApproxKL()],
     )
 
-    # 评估
+    # 
     mean_reward, std_reward = evaluate_policy(model, env, n_eval_episodes=10)
-    print(f"训练完成！平均奖励: {mean_reward} +/- {std_reward}")
+    print(f"！: {mean_reward} +/- {std_reward}")
 
     model.save("output/ppo_cartpole")
     env.close()
 
     # ==========================================
-    # 第二阶段：演示学习成果
+    # ：
     # ==========================================
-    print("\n正在展示智能体的学习成果...")
+    print("\n...")
     render_mode = "human" if args.gui else None
     vis_env = gym.make("CartPole-v1", render_mode=render_mode)
     model = PPO.load("output/ppo_cartpole")
@@ -143,16 +143,16 @@ def main():
             action, _states = model.predict(obs, deterministic=True)
             obs, reward, done, truncated, info = vis_env.step(action)
             score += reward
-        print(f"  回合 {episode + 1} 得分: {score}")
+        print(f"   {episode + 1} : {score}")
 
     vis_env.close()
 
     if args.gui:
-        print("\nGUI 演示结束。")
+        print("\nGUI 。")
     else:
-        print("\n提示: 加 --gui 可弹出小车动画窗口查看演示效果。")
+        print("\n:  --gui 。")
 
-    print("SwanLab 实验看板: swanlab watch swanlog")
+    print("SwanLab : swanlab watch swanlog")
 
 
 if __name__ == "__main__":

@@ -156,7 +156,7 @@ function localizeFootnotes(markdown) {
   let insertIndex = -1
   for (let index = withRefs.length - 1; index >= 0; index -= 1) {
     if (
-      /^#{2,4}\s+(参考文献|参考资料|延伸阅读与参考资料)/.test(withRefs[index])
+      /^#{2,4}\s+(||)/.test(withRefs[index])
     ) {
       insertIndex = index + 1
       break
@@ -164,7 +164,7 @@ function localizeFootnotes(markdown) {
   }
 
   if (insertIndex === -1) {
-    withRefs.push('', '## 参考文献')
+    withRefs.push('', '## ')
     insertIndex = withRefs.length
   }
 
@@ -410,7 +410,7 @@ function chapterMetaForItem(item) {
   const chapter = text.match(/^(\d+)\.(?!\d)\s*(.+)$/)
   if (chapter) {
     return {
-      label: `第 ${chapter[1]} 章`,
+      label: ` ${chapter[1]} `,
       title: chapter[2].trim(),
       kind: 'chapter'
     }
@@ -419,7 +419,7 @@ function chapterMetaForItem(item) {
   const appendix = text.match(/^([A-Z])\.\s+(.+)$/)
   if (appendix) {
     return {
-      label: `附录 ${appendix[1]}`,
+      label: ` ${appendix[1]}`,
       title: appendix[2].trim(),
       kind: 'appendix'
     }
@@ -495,7 +495,7 @@ function collectPdfStructure(sidebar) {
 
   for (const section of sidebar || []) {
     const tocSection = {
-      title: section.text || '未命名部分',
+      title: section.text || '',
       children: []
     }
 
@@ -533,10 +533,10 @@ function renderTocItems(items, level = 0) {
 function renderToc(tocSections) {
   const sections = [
     {
-      title: '前置页',
+      title: '',
       children: [
-        { title: '本书简介', href: '#pdf-book-intro', children: [] },
-        { title: '版本说明', href: '#pdf-publication-note', children: [] }
+        { title: '', href: '#pdf-book-intro', children: [] },
+        { title: '', href: '#pdf-publication-note', children: [] }
       ]
     },
     ...tocSections
@@ -545,7 +545,7 @@ function renderToc(tocSections) {
   return [
     '<section id="pdf-toc" class="pdf-export-toc">',
     '<p class="pdf-section-eyebrow">Table of Contents</p>',
-    '<h1>目录</h1>',
+    '<h1></h1>',
     ...sections.map((section) =>
       [
         '<div class="pdf-toc-section">',
@@ -597,7 +597,7 @@ function renderBookIntro(pageCount) {
     '</ul>',
     `<h2>${escapeHtml(intro.howToRead.title)}</h2>`,
     ...intro.howToRead.paragraphs.map((p) => `<p>${escapeHtml(p)}</p>`),
-    `<p>本 PDF 共汇编 ${pageCount} 个课程页面，并保留章节开篇页、目录、页眉页脚、参考文献和侧边书签，目标是让它更像一本可持续更新的课本。</p>`,
+    `<p> PDF  ${pageCount} ，、、、，。</p>`,
     '</section>'
   ].join('\n')
 }
@@ -609,9 +609,9 @@ function renderPublicationNote() {
     '<section id="pdf-publication-note" class="pdf-book-frontmatter">',
     '<p class="pdf-section-eyebrow">Edition Notes</p>',
     `<h1>${escapeHtml(publicationNote.title)}</h1>`,
-    `<p><strong>版本：</strong>${escapeHtml(pdfVersion)}，构建日期：${escapeHtml(pdfBuildDate)}。</p>`,
-    `<p><strong>作者：</strong>${escapeHtml(pdfAuthor)}。</p>`,
-    `<p><strong>项目地址：</strong><a href="${escapeAttribute(pdfGithubUrl)}">${escapeHtml(pdfGithubUrl)}</a>。</p>`,
+    `<p><strong>：</strong>${escapeHtml(pdfVersion)}，：${escapeHtml(pdfBuildDate)}。</p>`,
+    `<p><strong>：</strong>${escapeHtml(pdfAuthor)}。</p>`,
+    `<p><strong>：</strong><a href="${escapeAttribute(pdfGithubUrl)}">${escapeHtml(pdfGithubUrl)}</a>。</p>`,
     `<p>${escapeHtml(publicationNote.iterationNote)}</p>`,
     `<p>${escapeHtml(publicationNote.disclaimer)}</p>`,
     `<h2>${escapeHtml(publicationNote.licenseSection.title)}</h2>`,
@@ -632,7 +632,7 @@ function renderChapterOpener(chapter) {
     `<p class="pdf-section-eyebrow">${escapeHtml(chapter.kind === 'appendix' ? 'Appendix' : 'Chapter')}</p>`,
     `<p class="pdf-chapter-label">${escapeHtml(chapter.label)}</p>`,
     `<h1>${escapeHtml(chapter.title)}</h1>`,
-    `<p class="pdf-chapter-summary">本章包含 ${chapter.pages.length} 个小节，建议先扫目录，再进入正文和代码。</p>`,
+    `<p class="pdf-chapter-summary"> ${chapter.pages.length} ，，。</p>`,
     pageList ? `<ul>${pageList}</ul>` : '',
     '</div>',
     '</section>'
@@ -696,7 +696,7 @@ async function generatePdfSource() {
     [
       '---',
       'title: Hands-on Modern RL PDF',
-      'description: 现代强化学习实战 PDF 导出',
+      'description:  PDF ',
       'sidebar: false',
       'aside: false',
       'editLink: false',

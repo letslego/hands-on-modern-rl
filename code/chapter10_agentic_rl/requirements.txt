@@ -1,4 +1,4 @@
-# 第12章：Agentic RL 实验依赖
+# 12：Agentic RL 
 transformers==4.57.3
 trl==0.24.0
 datasets==4.4.1

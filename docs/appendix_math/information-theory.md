@@ -1,20 +1,20 @@
-# E.4 信息论与分布距离
+# E.4 
 
-如果你训练过一个语言模型，你多半见过这样的场景：模型在两个回答之间犹豫不决，或者更新一步之后风格突然跑偏。这类问题的背后，其实是"怎么衡量一个分布有多随机"和"怎么衡量两个分布差多远"这两个基本问题——而回答它们的工具，就是信息论。
+，：，。，""""——，。
 
-信息论本来是通信领域的基础课，但它在强化学习中几乎无处不在：策略探索需要熵，PPO 的稳定更新需要 KL 约束，RLHF 的对齐训练依赖交叉熵和 KL 散度，而 DPO 把这些工具重新包装成了优雅的偏好优化公式。
+，：，PPO  KL ，RLHF  KL ， DPO 。
 
-本节从最简单的概率事件出发，一路讲到 RLHF 和 DPO 的数学内核。
+， RLHF  DPO 。
 
-![策略分布、熵与 KL 示意图](./images/rl-policy-distribution.svg)
+![、 KL ](./images/rl-policy-distribution.svg)
 
-## 本节路线
+## 
 
-| 文章                                                       | 数学节奏                        | 强化学习中的作用             |
+|                                                        |                         |              |
 | ---------------------------------------------------------- | ------------------------------- | ---------------------------- |
-| [E.4.1 自信息、熵与探索](./information-basics)             | 概率事件 → 自信息 → 熵          | 衡量策略随机性和探索程度     |
-| [E.4.2 交叉熵与 KL 散度](./information-cross-entropy-kl)   | 编码代价 → 交叉熵 → KL          | 衡量预测分布和策略分布的差异 |
-| [E.4.3 KL 约束、RLHF 与 DPO](./information-rlhf-dpo)       | KL 正则 → 对数概率比 → 偏好损失 | 理解对齐训练中的策略约束     |
-| [E.4.4 互信息与表征学习](./information-mutual-info)        | 条件不确定性减少 → 互信息       | 衡量表征中保留的任务相关信息 |
-| [E.4.5 完整信息论公式](./information-advanced-formulas)    | KL、RLHF、DPO、互信息完整表达   | 统一理解分布距离和偏好优化   |
-| [E.4.6 小结、公式与练习](./information-formulas-exercises) | 公式汇总 → 误区 → 练习          | 回顾并检查理解               |
+| [E.4.1 、](./information-basics)             |  →  →           |      |
+| [E.4.2  KL ](./information-cross-entropy-kl)   |  →  → KL          |  |
+| [E.4.3 KL 、RLHF  DPO](./information-rlhf-dpo)       | KL  →  →  |      |
+| [E.4.4 ](./information-mutual-info)        |  →        |  |
+| [E.4.5 ](./information-advanced-formulas)    | KL、RLHF、DPO、   |    |
+| [E.4.6 、](./information-formulas-exercises) |  →  →           |                |

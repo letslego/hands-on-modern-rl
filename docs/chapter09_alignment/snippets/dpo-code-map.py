@@ -2,15 +2,15 @@ import torch
 import torch.nn.functional as F
 
 
-# [A] 一批偏好数据：同一个 prompt 下有 chosen 和 rejected
+# [A] ： prompt  chosen  rejected
 example = {
-    "prompt": "用户说：学数学完全没用，对吧？",
-    "chosen": "数学确实不一定每天都直接用到，但它能训练抽象和推理能力。",
-    "rejected": "对，数学基本没用，别学了。",
+    "prompt": "：，？",
+    "chosen": "，。",
+    "rejected": "，，。",
 }
 
 
-# [B] 只计算回答部分的序列 log probability
+# [B]  log probability
 def sequence_logprob(model, input_ids, attention_mask, labels):
     outputs = model(input_ids=input_ids, attention_mask=attention_mask)
     logits = outputs.logits[:, :-1, :]
@@ -27,7 +27,7 @@ def sequence_logprob(model, input_ids, attention_mask, labels):
     return answer_logprobs.sum(dim=-1)
 
 
-# [C] Policy 会更新，Reference 冻结，只当作训练前的参照物
+# [C] Policy ，Reference ，
 def dpo_forward(policy_model, ref_model, batch, beta=0.1):
     chosen_logps = sequence_logprob(
         policy_model,
@@ -56,17 +56,17 @@ def dpo_forward(policy_model, ref_model, batch, beta=0.1):
             batch["rejected_labels"],
         )
 
-    # [D] log-ratio：相对于 Reference，Policy 对回答的概率提升了多少
+    # [D] log-ratio： Reference，Policy 
     chosen_logratio = chosen_logps - ref_chosen_logps
     rejected_logratio = rejected_logps - ref_rejected_logps
 
-    # [E] DPO logits：好回答的隐式奖励减去坏回答的隐式奖励
+    # [E] DPO logits：
     dpo_logits = beta * (chosen_logratio - rejected_logratio)
     chosen_rewards = beta * chosen_logratio.detach()
     rejected_rewards = beta * rejected_logratio.detach()
     reward_margin = chosen_rewards - rejected_rewards
 
-    # [F] DPO loss：让 chosen 相对 rejected 的优势越来越明显
+    # [F] DPO loss： chosen  rejected 
     loss = -F.logsigmoid(dpo_logits).mean()
     metrics = {
         "loss": loss.detach(),
@@ -78,7 +78,7 @@ def dpo_forward(policy_model, ref_model, batch, beta=0.1):
     return loss, metrics
 
 
-# [G] 训练步骤：只更新 Policy，不更新 Reference
+# [G] ： Policy， Reference
 def train_step(policy_model, ref_model, optimizer, batch, beta=0.1):
     loss, metrics = dpo_forward(policy_model, ref_model, batch, beta=beta)
 
@@ -89,7 +89,7 @@ def train_step(policy_model, ref_model, optimizer, batch, beta=0.1):
     return metrics
 
 
-# [H] DPO 训练循环：偏好 batch 反复喂给同一个对比损失
+# [H] DPO ： batch 
 def train_dpo(policy_model, ref_model, optimizer, dataloader, beta=0.1):
     ref_model.eval()
     for batch in dataloader:

@@ -24,19 +24,19 @@ const suppressHover = ref(false)
 const codePre = ref(null)
 
 const segments = [
-  { id: 'A', label: '组采样', range: [5, 25] },
-  { id: 'B', label: '规则奖励', range: [28, 46] },
-  { id: 'C', label: '组内优势', range: [49, 61] },
-  { id: 'D', label: '序列 logprob', range: [64, 78] },
+  { id: 'A', label: '', range: [5, 25] },
+  { id: 'B', label: '', range: [28, 46] },
+  { id: 'C', label: '', range: [49, 61] },
+  { id: 'D', label: ' logprob', range: [64, 78] },
   { id: 'E', label: 'ratio / clip', range: [81, 103] },
-  { id: 'F', label: 'KL 惩罚', range: [105, 115] },
-  { id: 'G', label: '训练步骤', range: [118, 141] },
-  { id: 'H', label: '训练循环', range: [144, 156] }
+  { id: 'F', label: 'KL ', range: [105, 115] },
+  { id: 'G', label: '', range: [118, 141] },
+  { id: 'H', label: '', range: [144, 156] }
 ]
 
 const focusMap = {
   overview: {
-    title: '完整 GRPO 代码地图',
+    title: ' GRPO ',
     active: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'],
     compactRanges: [
       [5, 25],
@@ -51,43 +51,43 @@ const focusMap = {
     ]
   },
   sampling: {
-    title: '每个 prompt 采样多个回答',
+    title: ' prompt ',
     active: ['A'],
     compactRanges: [[5, 25]],
     highlight: [7, 10, 15, 16, 18, 19, 20, 23, 24]
   },
   reward: {
-    title: '规则奖励：正确答案和格式',
+    title: '：',
     active: ['B'],
     compactRanges: [[28, 46]],
     highlight: [31, 34, 35, 36, 45, 46]
   },
   advantages: {
-    title: '组内归一化优势 advantages',
+    title: ' advantages',
     active: ['C'],
     compactRanges: [[49, 61]],
     highlight: [51, 52, 53, 55, 56, 57, 61]
   },
   logprob: {
-    title: '回答序列的 log probability',
+    title: ' log probability',
     active: ['D'],
     compactRanges: [[64, 78]],
     highlight: [69, 71, 72, 77, 78]
   },
   clip: {
-    title: 'GRPO 的 ratio 与 PPO-style clip',
+    title: 'GRPO  ratio  PPO-style clip',
     active: ['E'],
     compactRanges: [[81, 103]],
     highlight: [84, 99, 100, 101, 102, 103]
   },
   kl: {
-    title: 'KL 惩罚与总 loss',
+    title: 'KL  loss',
     active: ['E', 'F'],
     compactRanges: [[99, 115]],
     highlight: [103, 106, 107, 108, 111, 112, 113]
   },
   train: {
-    title: 'GRPO 训练步骤与在线循环',
+    title: 'GRPO ',
     active: ['G', 'H'],
     compactRanges: [[118, 156]],
     highlight: [121, 122, 123, 129, 137, 138, 139, 140, 145, 147, 148]
@@ -100,8 +100,8 @@ const isExpanded = computed(
 )
 const activeTitle = computed(() => props.title || config.value.title)
 const toggleLabel = computed(() => {
-  if (pinned.value) return '收起完整代码'
-  return isExpanded.value ? '固定完整代码' : '展开完整代码'
+  if (pinned.value) return ''
+  return isExpanded.value ? '' : ''
 })
 
 const highlighted = computed(() => new Set(config.value.highlight))
@@ -210,7 +210,7 @@ function handleMouseLeave() {
       </span>
     </button>
 
-    <div class="grpo-code-focus-segments" aria-label="GRPO 代码结构">
+    <div class="grpo-code-focus-segments" aria-label="GRPO ">
       <button
         v-for="segment in segments"
         :key="segment.id"
@@ -225,8 +225,8 @@ function handleMouseLeave() {
     </div>
 
     <button class="grpo-code-focus-status" type="button" @click="togglePinned">
-      <span>{{ isExpanded ? '完整代码视图' : '局部重点视图' }}</span>
-      <span>{{ pinned ? '点击收起局部视图' : '点击固定完整代码' }}</span>
+      <span>{{ isExpanded ? '' : '' }}</span>
+      <span>{{ pinned ? '' : '' }}</span>
     </button>
 
     <pre

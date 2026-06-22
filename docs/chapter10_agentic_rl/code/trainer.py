@@ -5,7 +5,7 @@ from rollout_worker import RolloutWorker
 
 class GRPOAgentTrainer:
     """
-    编排 Agentic RL 训练循环。
+     Agentic RL 。
     rollout -> reward -> train -> repeat
     """
 
@@ -19,12 +19,12 @@ class GRPOAgentTrainer:
 
     def fit(self, prompts: list, n_steps: int = 50):
         """
-        主训练循环。
-        prompts: 训练用的 prompt 列表
-        n_steps: 训练步数
+        。
+        prompts:  prompt 
+        n_steps: 
         """
         for step in range(n_steps):
-            # ---- Rollout 阶段 ----
+            # ---- Rollout  ----
             batch_trajectories = []
             for prompt in prompts:
                 group = []
@@ -33,7 +33,7 @@ class GRPOAgentTrainer:
                     group.append(traj)
                 batch_trajectories.append(group)
 
-            # ---- Reward 归一化（GRPO 的组内比较）----
+            # ---- Reward （GRPO ）----
             all_rewards = []
             for group in batch_trajectories:
                 group_rewards = [t["reward"] for t in group]
@@ -43,7 +43,7 @@ class GRPOAgentTrainer:
                     t["advantage"] = (r - mean_r) / std_r
                 all_rewards.extend(group_rewards)
 
-            # ---- Train 阶段 ----
+            # ---- Train  ----
             train_data = []
             for group in batch_trajectories:
                 for traj in group:
@@ -56,7 +56,7 @@ class GRPOAgentTrainer:
 
             loss = self.policy.train_step_with_advantage(train_data)
 
-            # ---- 记录指标 ----
+            # ----  ----
             mean_reward = sum(all_rewards) / len(all_rewards)
             self.history.append({
                 "step": step,
@@ -72,7 +72,7 @@ class GRPOAgentTrainer:
         return self.history
 
     def _serialize_trajectory(self, traj: dict) -> str:
-        """把多轮轨迹序列化为一段文本，用于 train_step。"""
+        """， train_step。"""
         parts = []
         for interaction in traj["interactions"]:
             parts.append(f"Assistant: {interaction['response']}")

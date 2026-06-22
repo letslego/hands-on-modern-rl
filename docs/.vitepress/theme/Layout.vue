@@ -75,10 +75,10 @@ const isEnglishRoute = computed(
     mobileRoutePath.value === '/en' || mobileRoutePath.value.startsWith('/en/')
 )
 const mobileCurrentLanguage = computed(() =>
-  isEnglishRoute.value ? 'English' : '简体中文'
+  isEnglishRoute.value ? 'English' : ''
 )
 const mobileAlternateLanguage = computed(() =>
-  isEnglishRoute.value ? '简体中文' : 'English'
+  isEnglishRoute.value ? '' : 'English'
 )
 const mobileAlternateLanguageLink = computed(() => {
   if (isEnglishRoute.value) {
@@ -91,26 +91,26 @@ const mobileAlternateLanguageLink = computed(() => {
   return withBase(enPath)
 })
 const supportButtonLabel = computed(() =>
-  isEnglishRoute.value ? 'Give the creator a like' : '给制作者一个赞吧'
+  isEnglishRoute.value ? 'Give the creator a like' : ''
 )
 const settingsButtonLabel = computed(() =>
-  isEnglishRoute.value ? 'Reading and appearance settings' : '阅读与外观设置'
+  isEnglishRoute.value ? 'Reading and appearance settings' : ''
 )
 const supportNote = computed(() =>
   isEnglishRoute.value
     ? 'Thanks for following this project. Sharing it or joining the discussion is welcome; your attention is the greatest support.'
-    : '感谢关注项目，欢迎帮忙宣传或者一起交流，你的关注就是最大的支持。'
+    : '，，。'
 )
 const supportQrLabel = computed(() =>
   isEnglishRoute.value
     ? 'Official account / community QR code'
-    : '公众号 / 社群二维码'
+    : ' / '
 )
 const discordLinkLabel = computed(() =>
-  isEnglishRoute.value ? 'Join Discord' : '加入 Discord'
+  isEnglishRoute.value ? 'Join Discord' : ' Discord'
 )
 const discordLinkMeta = computed(() =>
-  isEnglishRoute.value ? 'Community' : '社区交流'
+  isEnglishRoute.value ? 'Community' : ''
 )
 const readingToolsCopy = computed(() =>
   isEnglishRoute.value
@@ -132,21 +132,21 @@ const readingToolsCopy = computed(() =>
         switchDark: 'Switch to dark mode'
       }
     : {
-        appearance: '外观',
-        light: '浅色',
-        dark: '深色',
-        fontSize: '字号',
-        lineHeight: '行距',
-        docWidth: '正文宽度',
+        appearance: '',
+        light: '',
+        dark: '',
+        fontSize: '',
+        lineHeight: '',
+        docWidth: '',
         decreaseFont: 'A-',
         increaseFont: 'A+',
-        default: '默认',
-        narrower: '更窄',
-        wider: '更宽',
-        tighter: '更紧',
-        looser: '更松',
-        switchLight: '切换到浅色模式',
-        switchDark: '切换到深色模式'
+        default: '',
+        narrower: '',
+        wider: '',
+        tighter: '',
+        looser: '',
+        switchLight: '',
+        switchDark: ''
       }
 )
 const fontSizeLabel = computed(() => `${clampFontSize(fontSize.value)}px`)
@@ -1170,7 +1170,7 @@ watch(
                   <div class="ct-support-qr-card">
                     <img
                       src="https://github.com/letslego/.github/raw/main/profile/wechat.png"
-                      alt="课程微信二维码"
+                      alt=""
                       loading="lazy"
                       decoding="async"
                     />
@@ -1201,7 +1201,7 @@ watch(
 
     <template #nav-screen-content-after>
       <div class="ct-mobile-language-switcher">
-        <div class="ct-mobile-language-title">切换语言</div>
+        <div class="ct-mobile-language-title"></div>
         <div class="ct-mobile-language-options">
           <span class="ct-mobile-language-current">
             {{ mobileCurrentLanguage }}
@@ -1235,7 +1235,7 @@ watch(
         class="ct-sidebar-toggle-btn"
         :class="{ collapsed: sidebarCollapsed }"
         type="button"
-        :aria-label="sidebarCollapsed ? '展开目录' : '收起目录'"
+        :aria-label="sidebarCollapsed ? '' : ''"
         @click="toggleSidebar"
       >
         <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
@@ -1269,7 +1269,7 @@ watch(
       <div
         v-if="routeLoading"
         class="ct-route-loading"
-        aria-label="页面加载中"
+        aria-label=""
         aria-live="polite"
       >
         <span class="ct-route-loading-spinner" aria-hidden="true"></span>
@@ -1284,36 +1284,36 @@ watch(
         class="ct-mermaid-viewer"
         role="dialog"
         aria-modal="true"
-        aria-label="查看图表"
+        aria-label=""
         @click.self="closeMermaidViewer"
       >
         <div class="ct-mermaid-viewer-toolbar">
           <div class="ct-mermaid-viewer-help">
             <strong>{{ mermaidViewerScaleLabel }}</strong>
-            <span>滚轮缩放 · 拖拽移动 · + / - 缩放 · 0 重置 · Esc 关闭</span>
+            <span> ·  · + / -  · 0  · Esc </span>
           </div>
           <div class="ct-mermaid-viewer-actions">
             <button
               type="button"
-              aria-label="缩小图表"
+              aria-label=""
               @click="zoomMermaidViewer(-MERMAID_VIEWER_SCALE_STEP)"
             >
               -
             </button>
-            <button type="button" @click="resetMermaidViewerZoom">重置</button>
+            <button type="button" @click="resetMermaidViewerZoom"></button>
             <button
               type="button"
-              aria-label="放大图表"
+              aria-label=""
               @click="zoomMermaidViewer(MERMAID_VIEWER_SCALE_STEP)"
             >
               +
             </button>
             <button
               type="button"
-              aria-label="关闭图表"
+              aria-label=""
               @click="closeMermaidViewer"
             >
-              关闭
+              
             </button>
           </div>
         </div>

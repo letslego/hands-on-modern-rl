@@ -474,7 +474,7 @@ function createMarkdownRenderer(imageMap) {
   md.use(markdownItContainer, 'output', {
     render(tokens, idx) {
       if (tokens[idx].nesting === 1) {
-        const title = tokens[idx].info.trim().slice(6).trim() || '运行结果'
+        const title = tokens[idx].info.trim().slice(6).trim() || ''
         return `<div class="output-block"><p class="output-title">${escapeXml(title)}</p>\n`
       }
       return '</div>\n'
@@ -497,7 +497,7 @@ function createMarkdownRenderer(imageMap) {
         return `<div class="mermaid-diagram"><img src="../images/${imageId}" alt="Mermaid diagram" /></div>\n`
       }
       const escaped = escapeXml(token.content)
-      return `<div class="mermaid-placeholder"><p class="mermaid-label">[图表]</p><pre>${escaped}</pre></div>\n`
+      return `<div class="mermaid-placeholder"><p class="mermaid-label">[]</p><pre>${escaped}</pre></div>\n`
     }
     return defaultFence(tokens, idx, options, env, self)
   }
@@ -597,7 +597,7 @@ function mediaTypeForExt(ext) {
 function collectTocSections(sidebar) {
   const sections = []
   for (const section of sidebar || []) {
-    const entry = { title: section.text || '未命名', items: [] }
+    const entry = { title: section.text || '', items: [] }
     flattenSidebar(section.items || [], entry.items)
     if (section.link) {
       entry.items.unshift({ title: section.text, link: section.link })
@@ -616,8 +616,8 @@ function collectAndRewriteImages(html, sourcePagePath, imageMap) {
 
     if (src.startsWith('http://') || src.startsWith('https://')) {
       const altMatch = match.match(/alt=["']([^"']*)["']/)
-      const alt = altMatch ? altMatch[1] : '外部图片'
-      return `<span class="external-image-placeholder">[在线图片: ${escapeXml(alt)}]</span>`
+      const alt = altMatch ? altMatch[1] : ''
+      return `<span class="external-image-placeholder">[: ${escapeXml(alt)}]</span>`
     }
 
     const sourceDir = path.dirname(sourcePagePath)
@@ -777,11 +777,11 @@ ${spineItems.join('\n')}
 
 function generateNavXhtml(tocSections) {
   const navItems = [
-    '      <li><span>前置页</span>',
+    '      <li><span></span>',
     '        <ol>',
-    '          <li><a href="chapters/cover.xhtml">封面</a></li>',
-    '          <li><a href="chapters/intro.xhtml">本书简介</a></li>',
-    '          <li><a href="chapters/publication-note.xhtml">版本说明</a></li>',
+    '          <li><a href="chapters/cover.xhtml"></a></li>',
+    '          <li><a href="chapters/intro.xhtml"></a></li>',
+    '          <li><a href="chapters/publication-note.xhtml"></a></li>',
     '        </ol>',
     '      </li>'
   ]
@@ -807,12 +807,12 @@ function generateNavXhtml(tocSections) {
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" lang="${epubLang}" xml:lang="${epubLang}">
 <head>
   <meta charset="UTF-8"/>
-  <title>目录</title>
+  <title></title>
   <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
   <nav epub:type="toc" id="toc">
-    <h1>目录</h1>
+    <h1></h1>
     <ol>
 ${navItems.join('\n')}
     </ol>
@@ -1072,7 +1072,7 @@ function generateCoverXhtml() {
 <html xmlns="http://www.w3.org/1999/xhtml" lang="${epubLang}" xml:lang="${epubLang}">
 <head>
   <meta charset="UTF-8"/>
-  <title>封面</title>
+  <title></title>
   <link rel="stylesheet" href="../style.css"/>
 </head>
 <body class="cover-page">
@@ -1123,7 +1123,7 @@ ${audienceItems}
   </ul>
   <h2>${escapeXml(intro.howToRead.title)}</h2>
 ${howToRead}
-  <p>本书共汇编 ${pageCount} 个课程页面，目标是让它更像一本可持续更新的课本。</p>
+  <p> ${pageCount} ，。</p>
 </body>
 </html>`
 }
@@ -1140,9 +1140,9 @@ function generatePublicationNoteXhtml() {
 </head>
 <body>
   <h1>${escapeXml(publicationNote.title)}</h1>
-  <p><strong>版本：</strong>${escapeXml(bookVersion)}，构建日期：${escapeXml(bookBuildDate)}。</p>
-  <p><strong>作者：</strong>${escapeXml(bookAuthor)}。</p>
-  <p><strong>项目地址：</strong><a href="${escapeXml(bookGithubUrl)}">${escapeXml(bookGithubUrl)}</a>。</p>
+  <p><strong>：</strong>${escapeXml(bookVersion)}，：${escapeXml(bookBuildDate)}。</p>
+  <p><strong>：</strong>${escapeXml(bookAuthor)}。</p>
+  <p><strong>：</strong><a href="${escapeXml(bookGithubUrl)}">${escapeXml(bookGithubUrl)}</a>。</p>
   <p>${escapeXml(publicationNote.iterationNote)}</p>
   <p>${escapeXml(publicationNote.disclaimer)}</p>
   <h2>${escapeXml(publicationNote.licenseSection.title)}</h2>

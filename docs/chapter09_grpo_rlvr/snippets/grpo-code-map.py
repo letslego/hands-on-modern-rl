@@ -2,7 +2,7 @@ import re
 import torch
 
 
-# [A] 组采样：每个 prompt 生成 group_size 个回答
+# [A] ： prompt  group_size 
 def sample_groups(model, tokenizer, prompts, group_size=8, max_new_tokens=256):
     expanded_prompts = [
         prompt
@@ -25,7 +25,7 @@ def sample_groups(model, tokenizer, prompts, group_size=8, max_new_tokens=256):
     return responses, group_ids
 
 
-# [B] 规则奖励：数学答案正确、格式规范就给分
+# [B] ：、
 def rule_reward(response, ground_truth):
     reward = 0.0
     boxed = re.search(r"\\boxed\{([^}]+)\}", response)
@@ -46,7 +46,7 @@ def score_responses(responses, ground_truths, group_size=8, device="cpu"):
     return torch.tensor(rewards, dtype=torch.float32, device=device)
 
 
-# [C] 组内优势：用同题目的回答均值替代 Critic 基线
+# [C] ： Critic 
 def group_advantages(rewards, group_size=8, eps=1e-8):
     grouped_rewards = rewards.view(-1, group_size)
     group_mean = grouped_rewards.mean(dim=1, keepdim=True)
@@ -61,7 +61,7 @@ def group_advantages(rewards, group_size=8, eps=1e-8):
     return advantages.reshape(-1)
 
 
-# [D] 计算回答序列 log probability
+# [D]  log probability
 def sequence_logprob(model, input_ids, attention_mask, labels):
     outputs = model(input_ids=input_ids, attention_mask=attention_mask)
     logits = outputs.logits[:, :-1, :]
@@ -78,7 +78,7 @@ def sequence_logprob(model, input_ids, attention_mask, labels):
     return response_logprobs.sum(dim=-1)
 
 
-# [E] GRPO 更新：PPO-style ratio + clip，但优势来自组内比较
+# [E] GRPO ：PPO-style ratio + clip，
 def grpo_loss(policy_model, ref_model, batch, old_logprobs, advantages,
               clip_eps=0.2, kl_coef=0.04):
     new_logprobs = sequence_logprob(
@@ -102,7 +102,7 @@ def grpo_loss(policy_model, ref_model, batch, old_logprobs, advantages,
     surr2 = clipped_ratio * advantages
     policy_loss = -torch.min(surr1, surr2).mean()
 
-    # [F] KL 惩罚：防止 Policy 离 Reference 太远
+    # [F] KL ： Policy  Reference 
     log_ratio_ref = ref_logprobs - new_logprobs
     approx_kl = (torch.exp(log_ratio_ref) - log_ratio_ref - 1.0).mean()
     loss = policy_loss + kl_coef * approx_kl
@@ -115,7 +115,7 @@ def grpo_loss(policy_model, ref_model, batch, old_logprobs, advantages,
     return loss, metrics
 
 
-# [G] 训练步骤：采样、打分、组内归一化、再反向传播
+# [G] ：、、、
 def train_step(policy_model, ref_model, optimizer, tokenizer, prompts, ground_truths,
                group_size=8):
     responses, _ = sample_groups(policy_model, tokenizer, prompts, group_size)
@@ -141,7 +141,7 @@ def train_step(policy_model, ref_model, optimizer, tokenizer, prompts, ground_tr
     return metrics
 
 
-# [H] GRPO 训练循环：每轮都在线生成新回答
+# [H] GRPO ：
 def train_grpo(policy_model, ref_model, optimizer, tokenizer, dataloader):
     ref_model.eval()
     for prompts, ground_truths in dataloader:

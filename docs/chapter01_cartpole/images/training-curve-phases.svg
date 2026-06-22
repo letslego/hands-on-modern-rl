@@ -15,7 +15,7 @@
   </defs>
 
   <!-- Title -->
-  <text x="300" y="30" text-anchor="middle" font-size="15" font-weight="600" fill="#1e293b">典型的 CartPole 训练曲线（ep_rew_mean）</text>
+  <text x="300" y="30" text-anchor="middle" font-size="15" font-weight="600" fill="#1e293b"> CartPole （ep_rew_mean）</text>
 
   <!-- Chart area -->
   <g transform="translate(70, 50)">
@@ -25,9 +25,9 @@
     <rect x="300" y="0" width="200" height="220" fill="url(#phase3)"/>
 
     <!-- Phase labels at top -->
-    <text x="60" y="-5" text-anchor="middle" font-size="11" font-weight="600" fill="#dc2626">Phase 1: 开局低迷</text>
-    <text x="210" y="-5" text-anchor="middle" font-size="11" font-weight="600" fill="#ca8a04">Phase 2: 快速爬升</text>
-    <text x="400" y="-5" text-anchor="middle" font-size="11" font-weight="600" fill="#16a34a">Phase 3: 趋于稳定</text>
+    <text x="60" y="-5" text-anchor="middle" font-size="11" font-weight="600" fill="#dc2626">Phase 1: </text>
+    <text x="210" y="-5" text-anchor="middle" font-size="11" font-weight="600" fill="#ca8a04">Phase 2: </text>
+    <text x="400" y="-5" text-anchor="middle" font-size="11" font-weight="600" fill="#16a34a">Phase 3: </text>
 
     <!-- Grid lines -->
     <line x1="0" y1="0" x2="500" y2="0" stroke="#e2e8f0" stroke-width="0.5"/>
@@ -46,7 +46,7 @@
     <text x="-8" y="4" text-anchor="end" font-size="10" fill="#94a3b8">250</text>
 
     <!-- Y-axis title -->
-    <text x="-50" y="110" text-anchor="middle" font-size="11" fill="#64748b" transform="rotate(-90, -50, 110)">平均回合奖励</text>
+    <text x="-50" y="110" text-anchor="middle" font-size="11" fill="#64748b" transform="rotate(-90, -50, 110)"></text>
 
     <!-- X-axis labels -->
     <text x="0" y="238" text-anchor="middle" font-size="10" fill="#94a3b8">0</text>
@@ -55,7 +55,7 @@
     <text x="500" y="238" text-anchor="middle" font-size="10" fill="#94a3b8">80000</text>
 
     <!-- X-axis title -->
-    <text x="250" y="256" text-anchor="middle" font-size="11" fill="#64748b">训练步数 (timesteps)</text>
+    <text x="250" y="256" text-anchor="middle" font-size="11" fill="#64748b"> (timesteps)</text>
 
     <!-- Training curve - realistic jagged shape -->
     <polyline
@@ -71,22 +71,22 @@
     <!-- Phase 1 annotation -->
     <g>
       <rect x="15" y="148" width="90" height="36" rx="6" fill="white" stroke="#fca5a5" stroke-width="1"/>
-      <text x="60" y="163" text-anchor="middle" font-size="9" fill="#dc2626" font-weight="500">随机策略</text>
-      <text x="60" y="177" text-anchor="middle" font-size="9" fill="#dc2626">得分 ~20-40</text>
+      <text x="60" y="163" text-anchor="middle" font-size="9" fill="#dc2626" font-weight="500"></text>
+      <text x="60" y="177" text-anchor="middle" font-size="9" fill="#dc2626"> ~20-40</text>
     </g>
 
     <!-- Phase 2 annotation -->
     <g>
       <rect x="165" y="92" width="90" height="36" rx="6" fill="white" stroke="#fde047" stroke-width="1"/>
-      <text x="210" y="107" text-anchor="middle" font-size="9" fill="#ca8a04" font-weight="500">策略快速改进</text>
-      <text x="210" y="121" text-anchor="middle" font-size="9" fill="#ca8a04">得分 40→150+</text>
+      <text x="210" y="107" text-anchor="middle" font-size="9" fill="#ca8a04" font-weight="500"></text>
+      <text x="210" y="121" text-anchor="middle" font-size="9" fill="#ca8a04"> 40→150+</text>
     </g>
 
     <!-- Phase 3 annotation -->
     <g>
       <rect x="370" y="18" width="100" height="36" rx="6" fill="white" stroke="#86efac" stroke-width="1"/>
-      <text x="420" y="33" text-anchor="middle" font-size="9" fill="#16a34a" font-weight="500">策略已收敛</text>
-      <text x="420" y="47" text-anchor="middle" font-size="9" fill="#16a34a">得分 ~180-200</text>
+      <text x="420" y="33" text-anchor="middle" font-size="9" fill="#16a34a" font-weight="500"></text>
+      <text x="420" y="47" text-anchor="middle" font-size="9" fill="#16a34a"> ~180-200</text>
     </g>
 
     <!-- Arrow annotations -->
@@ -101,9 +101,9 @@
     <!-- Trend line legend -->
     <g transform="translate(340, 200)">
       <line x1="0" y1="0" x2="20" y2="0" stroke="#6366f1" stroke-width="2.5"/>
-      <text x="25" y="4" font-size="9" fill="#64748b">实际曲线</text>
+      <text x="25" y="4" font-size="9" fill="#64748b"></text>
       <line x1="80" y1="0" x2="100" y2="0" stroke="#8b5cf6" stroke-width="1.5" stroke-dasharray="6,4" opacity="0.6"/>
-      <text x="105" y="4" font-size="9" fill="#64748b">趋势线</text>
+      <text x="105" y="4" font-size="9" fill="#64748b"></text>
     </g>
   </g>
 </svg>

@@ -15,8 +15,8 @@ const Mermaid = defineAsyncComponent(
 )
 
 function loadFonts() {
-  // Apple 风格：使用系统原生字体，不加载外部字体
-  // SF Pro / PingFang SC / Hiragino Sans GB 等系统字体已足够精美
+  // Apple ：，
+  // SF Pro / PingFang SC / Hiragino Sans GB 
   if (typeof document === 'undefined') return
 }
 
